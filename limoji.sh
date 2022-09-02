@@ -15,4 +15,6 @@ if ! hash xclip 2> /dev/null; then
     echo xclip installed
 fi
 
-echo ${!1} | tee >(copyToClipboard)
+if [ $# != 0 ]; then
+    echo ${!1} | tee >(copyToClipboard)
+fi
