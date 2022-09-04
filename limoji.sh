@@ -15,6 +15,13 @@ if ! hash xclip 2> /dev/null; then
     echo xclip installed
 fi
 
-if [ $# != 0 ]; then
-    echo ${!1} | tee >(copyToClipboard)
-fi
+ if [ $# != 0 ]; then
+     echo "  " $1 was successfully copied to clipboard:
+    echo  -e "  " ${!1} | tee >(copyToClipboard)
+ fi
+
+#  if [ $1 == random ]; then
+#       printf "gg\n"
+#   fi
+#  ↑
+#  Random Number Gen Between Two Numbers "$ echo $(( $RANDOM % 50 + 1 ))"
