@@ -38,11 +38,15 @@ else
 fi
 
 if [ $# == 1 ]; then
-    if ! test -z "${!1}"; then
-        echo ${!1} | tee >(copyToClipboard)
+    if [ $1 == --emoticons ]; then
+        cat ascii
     else
-        printf "%b %bThe specified emoji doesn't exist!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-        printf "Try 'limoji --emoticons' for a list of available emojis.\n"
+        if ! test -z "${!1}"; then
+            echo ${!1} | tee >(copyToClipboard)
+        else
+            printf "%b %bThe specified emoji doesn't exist!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+            printf "Try 'limoji --emoticons' for a list of available emojis.\n"
+        fi
     fi
 else
     printf "%b %bInvalid argument!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
