@@ -41,7 +41,7 @@ if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
         cat ascii
     elif [ $1 == --random ]; then
-        shuf -n 1 ascii | tee >(copyToClipboard)
+        shuf -n 1 ascii | cut -d= -f2 | tr -d \' | tee >(copyToClipboard)
     else
         if ! test -z "${!1}"; then
             printf  "%b %b$1 Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
