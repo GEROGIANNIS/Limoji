@@ -17,6 +17,15 @@ copyToClipboard() {
     fi
 }
 
+# Function that picks a random emoticon name
+fetchRandomName() {
+    # Generate a random number between 1 and ascii line count
+    randomLine=$(( 1 + $RANDOM % $(wc -l ascii | awk '{print $1}') ))
+
+    # Fetch emoticon's name from the selected line
+    randomName=$(head -$randomLine ascii | tail +$randomLine | cut -d= -f1)
+}
+
 # Disable globbing
 set -f
 
@@ -44,7 +53,16 @@ if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
         echo -e "$(cat ascii)"
     elif [ $1 == --random ]; then
-        shuf -n 1 ascii | cut -d= -f2 | tr -d \' | tee >(copyToClipboard)
+        # Picks a random emoticon name
+        fetchRandomName
+
+        # Rerun the function if randomName contains a non-alphabetical character
+        while [[ "${randomName}" =~ [^a-zA-Z] ]]; do
+            fetchRandomName
+        done
+
+        # Finally print the emoticon and copy it to the clipboard
+        echo -e ${!randomName} | tee >(copyToClipboard)
     else
         if ! test -z "${!1}"; then
             printf  "%b %b$1 Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
