@@ -39,7 +39,7 @@ fi
 
 if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
-        cat ascii
+        echo -e "$(cat ascii)"
     elif [ $1 == --random ]; then
         shuf -n 1 ascii | cut -d= -f2 | tr -d \' | tee >(copyToClipboard)
     else
