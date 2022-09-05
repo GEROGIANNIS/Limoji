@@ -9,6 +9,8 @@ TICK="${COL_NC}[${COL_LIGHT_GREEN}✓${COL_NC}]"
 CROSS="${COL_NC}[${COL_LIGHT_RED}✗${COL_NC}]"
 INFO="${COL_NC}[${COL_LIGHT_YELLOW}i${COL_NC}]"
 
+# A function that copies the selected emoticon to the clipboard
+# Works on both X11 and Wayland
 copyToClipboard() {
     if [ $XDG_SESSION_TYPE == "x11" ]; then
         xclip -selection c
@@ -29,6 +31,7 @@ fetchRandomName() {
 # Disable globbing
 set -f
 
+# Fetch all emoticons from the file
 . ascii
 
 # Check if current session is X11
@@ -49,6 +52,7 @@ else
     fi
 fi
 
+# Detect number of arguments
 if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
         echo -e "$(cat ascii)"
@@ -64,6 +68,7 @@ if [ $# == 1 ]; then
         # Finally print the emoticon and copy it to the clipboard
         echo -e ${!randomName} | tee >(copyToClipboard)
     else
+        # Check if the selected emoticon exists
         if ! test -z "${!1}"; then
             printf  "%b %b$1 Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
             echo -e ${!1} | tee >(copyToClipboard)
