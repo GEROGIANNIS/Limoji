@@ -17,6 +17,9 @@ copyToClipboard() {
     fi
 }
 
+# Disable globbing
+set -f
+
 . ascii
 
 # Check if current session is X11
@@ -55,3 +58,6 @@ else
     printf "%b %bInvalid argument!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
     printf "Try 'limoji --help' for a list of available commands.\n"
 fi
+
+# Enable globbing
+set -f
