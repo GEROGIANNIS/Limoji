@@ -66,6 +66,7 @@ if [ $# == 1 ]; then
         done
 
         # Finally print the emoticon and copy it to the clipboard
+        printf  "%b %b$randomName Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
         echo -e ${!randomName} | tee >(copyToClipboard)
     else
         # Check if the selected emoticon exists
