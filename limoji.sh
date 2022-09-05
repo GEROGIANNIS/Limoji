@@ -44,7 +44,8 @@ if [ $# == 1 ]; then
         shuf -n 1 ascii | tee >(copyToClipboard)
     else
         if ! test -z "${!1}"; then
-            echo ${!1} | tee >(copyToClipboard)
+            printf  "%b %b$1 Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
+            echo -e ${!1} | tee >(copyToClipboard)
         else
             printf "%b %bThe specified emoji doesn't exist!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
             printf "Try 'limoji --emoticons' for a list of available emojis.\n"
