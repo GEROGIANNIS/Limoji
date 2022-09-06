@@ -1,10 +1,7 @@
 #!/bin/bash
 # Limoji dev
 
-parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-
-cd "$parent_path"
-
+# A few values so the script can run in color
 COL_NC='\e[0m' # No Color
 COL_LIGHT_RED='\e[1;31m'
 COL_LIGHT_GREEN='\e[1;32m'
@@ -70,7 +67,7 @@ if [ $# == 1 ]; then
         done
 
         # Finally print the emoticon and copy it to the clipboard
-        printf  "%b %b$randomName Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
+        printf  "%b %b$randomName was copied to the clipboard successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
         echo -e ${!randomName} | tee >(copyToClipboard)
 
         #Ask If User Wants Another Emoticon
@@ -82,9 +79,12 @@ if [ $# == 1 ]; then
          done
 
     else
+        # Convert all uppercase characters to lowercase
+        set $(echo $1 | tr '[:upper:]' '[:lower:]')
+
         # Check if the selected emoticon exists
         if ! test -z "${!1}"; then
-            printf  "%b %b$1 Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
+            printf  "%b %b$1 was copied to the clipboard successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
             echo -e ${!1} | tee >(copyToClipboard)
         else
             printf "%b %bThe specified emoji doesn't exist!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
@@ -92,6 +92,7 @@ if [ $# == 1 ]; then
         fi
     fi
 else
+    # TODO: Implement a help page
     printf "%b %bInvalid argument!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
     printf "Try 'limoji --help' for a list of available commands.\n"
 fi
