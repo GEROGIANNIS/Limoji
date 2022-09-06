@@ -1,0 +1,12 @@
+Source: limoji
+Section: utils
+Priority: optional
+Maintainer: Lefteris Garyfalakis <lefterisgar@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.1
+Rules-Requires-Root: no
+
+Package: limoji
+Architecture: all
+Depends: ${misc:Depends}
+Description: Turning your favorite emojis into the world of ASCII 
