@@ -84,6 +84,8 @@ fi
 if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
         echo -e "$(cat ./ascii)"
+    elif [ $1 == --help ]; then
+        echo -e "Usage: limoji <emoticon>\nlimoji --random   Print a random emoticon\nlimoji --emoticon Show a list of the available emoticons\nlimoji --version  Display Limoji's version\nlimoji --help	  Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji"
     elif [ $1 == --random ]; then
         # Picks a random emoticon
         randomEmoticon
