@@ -11,4 +11,5 @@ Rules-Requires-Root: no
 Package: limoji
 Architecture: all
 Depends: xclip, wl-clipboard
-Description: Turning your favorite emojis into the world of ASCII 
+Description: Turning your favorite emojis into the world of ASCII
+  Hi
