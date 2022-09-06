@@ -6,6 +6,8 @@ Uploaders: Nikos Gerogiannakes <ngerogiannakes@gmail.com>
 Build-Depends: debhelper-compat (= 12)
 Standards-Version: 4.6.1
 Homepage: https://github.com/GEROGIANNIS/Limoji
+Vcs-Browser: https://github.com/GEROGIANNIS/Limoji
+Vcs-Git: https://github.com/GEROGIANNIS/Limoji.git
 Rules-Requires-Root: no
 
 Package: limoji
