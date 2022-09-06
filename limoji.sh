@@ -56,7 +56,7 @@ fi
 # Detect number of arguments
 if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
-        echo -e "$(cat ./ascii)"
+        echo -e "$(cat ascii)"
     elif [ $1 == --random ]; then
         # Picks a random emoticon name
         fetchRandomName
