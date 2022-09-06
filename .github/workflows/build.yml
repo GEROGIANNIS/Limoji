@@ -21,4 +21,7 @@ jobs:
         with:
           artifacts: ../*.deb
           draft: true
-          token: ${{ secrets.PERSONAL_TOKEN }}
+          token: ${{ secrets.personal_token }}
+
+      - name: Upload to Gemfury
+        run: curl -F package=@$(find ../ -type f -name "*.deb") https://${{ secrets.gemfury_token }}@push.fury.io/lefterisgar/
