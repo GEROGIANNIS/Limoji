@@ -29,6 +29,25 @@ fetchRandomName() {
     randomName=$(head -$randomLine ascii | tail +$randomLine | cut -d= -f1)
 }
 
+randomEmoticon() {
+    # Picks a random emoticon name
+    fetchRandomName
+
+    # Rerun the function if randomName contains a non-alphabetical character
+    while [[ "${randomName}" =~ [^a-zA-Z] ]]; do
+        fetchRandomName
+    done
+
+    # Finally print the emoticon and copy it to the clipboard
+    printf  "%b %b$randomName was copied to the clipboard successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
+    echo -e ${!randomName} | tee >(copyToClipboard)
+
+    #Ask the user if he wants another emoticon
+    printf "%b %bDo you want another one? (y/n) %b" "${QUESTION}"
+    read -n 1 -r
+    printf "\n"
+}
+
 # Disable globbing
 set -f
 
@@ -58,26 +77,11 @@ if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
         echo -e "$(cat ascii)"
     elif [ $1 == --random ]; then
-        # Picks a random emoticon name
-        fetchRandomName
+        randomEmoticon
 
-        # Rerun the function if randomName contains a non-alphabetical character
-        while [[ "${randomName}" =~ [^a-zA-Z] ]]; do
-            fetchRandomName
+        while [[ $REPLY =~ ^[Yy]$ ]]; do
+            randomEmoticon
         done
-
-        # Finally print the emoticon and copy it to the clipboard
-        printf  "%b %b$randomName was copied to the clipboard successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-        echo -e ${!randomName} | tee >(copyToClipboard)
-
-        #Ask If User Wants Another Emoticon
-         read -p "Do you want another one (y/n)?" CONT
-         while [ "$CONT" = "y" ]; do
-                 fetchRandomName
-                      printf  "%b %b$randomName Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-                      echo -e ${!randomName} | tee >(copyToClipboard)
-         done
-
     else
         # Convert all uppercase characters to lowercase
         set $(echo $1 | tr '[:upper:]' '[:lower:]')
