@@ -72,7 +72,9 @@ cd ~/Limoji && git pull
 
 # Usage
 
-```limoji [emoticon-name]```
+```bash
+$ limoji <emoticon-name>
+```
 
 Example:
 
