@@ -73,7 +73,7 @@ if [ $# == 1 ]; then
         printf  "%b %b$randomName Was Copied To Clipboard Successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
         echo -e ${!randomName} | tee >(copyToClipboard)
 
-        #Ask If User Want Another Emoticon
+        #Ask If User Wants Another Emoticon
          read -p "Do you want another one (y/n)?" CONT
          while [ "$CONT" = "y" ]; do
                  fetchRandomName
