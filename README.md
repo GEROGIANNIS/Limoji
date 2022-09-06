@@ -144,6 +144,6 @@ Todo:
 - [x] Packaging
 - [ ] Help Page
 - [ ] BetterDiscord Support
-- [ ] Update README.md
-- [ ] Make A Release
+- [x] Update README.md
+- [x] Make A Release
 - [x] Add Option To Receive Another Emoticon
