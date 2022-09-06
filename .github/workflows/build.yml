@@ -3,7 +3,6 @@ on:
   push:
     tags:
       - '*'
-  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,11 +14,11 @@ jobs:
         run: sudo apt install -y devscripts debhelper
 
       - name: Package Limoji
-        run: dpkg-buildpackage --build=binary --no-check-builddeps --compression=gzip
+        run: dpkg-buildpackage --build=binary --no-check-builddeps
 
       - name: Create a release
         uses: ncipollo/release-action@v1
         with:
-          tag: "v1"
           artifacts: ../*.deb
+          draft: true
           token: ${{ secrets.PERSONAL_TOKEN }}
