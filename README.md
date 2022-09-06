@@ -31,4 +31,4 @@ Todo:
 - [ ] BetterDiscord Support
 - [ ] Update README.md
 - [ ] Make A Release
-- [ ] Add Option To Receive Another Emoticon
+- [x] Add Option To Receive Another Emoticon
