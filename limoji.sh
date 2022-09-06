@@ -79,8 +79,10 @@ if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
         echo -e "$(cat ascii)"
     elif [ $1 == --random ]; then
+        # Picks a random emoticon
         randomEmoticon
 
+        # If the user replies with a 'Yes', repick one
         while [[ $REPLY =~ ^[Yy]$ ]]; do
             randomEmoticon
         done
