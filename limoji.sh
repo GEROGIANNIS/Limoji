@@ -69,6 +69,9 @@ if [ $# == 1 ]; then
         printf  "%b %b$randomName was copied to the clipboard successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
         echo -e ${!randomName} | tee >(copyToClipboard)
     else
+        # Convert all uppercase characters to lowercase
+        set $(echo $1 | tr '[:upper:]' '[:lower:]')
+
         # Check if the selected emoticon exists
         if ! test -z "${!1}"; then
             printf  "%b %b$1 was copied to the clipboard successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
