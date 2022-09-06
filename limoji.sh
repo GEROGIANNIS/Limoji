@@ -1,6 +1,7 @@
 #!/bin/bash
 # Limoji dev
 
+# A few values so the script can run in color
 COL_NC='\e[0m' # No Color
 COL_LIGHT_RED='\e[1;31m'
 COL_LIGHT_GREEN='\e[1;32m'
@@ -82,6 +83,7 @@ if [ $# == 1 ]; then
         fi
     fi
 else
+    # TODO: Implement a help page
     printf "%b %bInvalid argument!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
     printf "Try 'limoji --help' for a list of available commands.\n"
 fi
