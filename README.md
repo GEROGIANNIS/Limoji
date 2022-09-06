@@ -20,7 +20,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 
 ## Debian / Ubuntu-based distributions (Officially supported)
 
-Limoji is available as a <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">deb package</a>.
+Install Limoji from the available <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">deb package</a>.
 
 ## Other GNU/Linux distributions
 
@@ -142,7 +142,7 @@ GitHub actions is configured to build the package afterwards and draft a release
 Todo:
 - [ ] Localization
 - [x] Packaging
-- [ ] Help Page
+- [x] Help Page
 - [ ] BetterDiscord Support
 - [x] Update README.md
 - [x] Make A Release
