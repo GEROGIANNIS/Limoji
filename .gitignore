@@ -1,0 +1,4 @@
+# Ignore files for Debian packaging
+debian/files
+debian/*debhelper*
+debian/limoji*

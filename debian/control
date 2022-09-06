@@ -1,0 +1,15 @@
+Source: limoji
+Section: utils
+Priority: optional
+Maintainer: Lefteris Garyfalakis <lefterisgar@gmail.com>
+Uploaders: Nikos Gerogiannakes <ngerogiannakes@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.1
+Homepage: https://github.com/GEROGIANNIS/Limoji
+Rules-Requires-Root: no
+
+Package: limoji
+Architecture: all
+Depends: xclip, wl-clipboard
+Description: Turning your favorite emojis into the world of ASCII
+  Turning your favorite emojis into the world of ASCII

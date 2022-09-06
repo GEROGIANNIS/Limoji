@@ -1,6 +1,10 @@
 #!/bin/bash
 # Limoji dev
 
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+
+cd "$parent_path"
+
 # A few values so the script can run in color
 COL_NC='\e[0m' # No Color
 COL_LIGHT_RED='\e[1;31m'
@@ -77,7 +81,7 @@ fi
 # Detect number of arguments
 if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
-        echo -e "$(cat ascii)"
+        echo -e "$(cat ./ascii)"
     elif [ $1 == --random ]; then
         # Picks a random emoticon
         randomEmoticon
