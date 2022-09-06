@@ -5,10 +5,12 @@
 COL_NC='\e[0m' # No Color
 COL_LIGHT_RED='\e[1;31m'
 COL_LIGHT_GREEN='\e[1;32m'
+COL_LIGHT_BLUE='\e[1;94m'
 COL_LIGHT_YELLOW='\e[1;93m'
 TICK="${COL_NC}[${COL_LIGHT_GREEN}✓${COL_NC}]"
 CROSS="${COL_NC}[${COL_LIGHT_RED}✗${COL_NC}]"
 INFO="${COL_NC}[${COL_LIGHT_YELLOW}i${COL_NC}]"
+QUESTION="${COL_NC}[${COL_LIGHT_BLUE}?${COL_NC}]"
 
 # A function that copies the selected emoticon to the clipboard
 # Works on both X11 and Wayland
@@ -27,6 +29,25 @@ fetchRandomName() {
 
     # Fetch emoticon's name from the selected line
     randomName=$(head -$randomLine ascii | tail +$randomLine | cut -d= -f1)
+}
+
+randomEmoticon() {
+    # Picks a random emoticon name
+    fetchRandomName
+
+    # Rerun the function if randomName contains a non-alphabetical character
+    while [[ "${randomName}" =~ [^a-zA-Z] ]]; do
+        fetchRandomName
+    done
+
+    # Finally print the emoticon and copy it to the clipboard
+    printf  "%b %b$randomName was copied to the clipboard successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
+    echo -e ${!randomName} | tee >(copyToClipboard)
+
+    #Ask the user if he wants another emoticon
+    printf "%b %bDo you want another one? (y/n) %b" "${QUESTION}"
+    read -n 1 -r
+    printf "\n"
 }
 
 # Disable globbing
@@ -58,17 +79,13 @@ if [ $# == 1 ]; then
     if [ $1 == --emoticons ]; then
         echo -e "$(cat ascii)"
     elif [ $1 == --random ]; then
-        # Picks a random emoticon name
-        fetchRandomName
+        # Picks a random emoticon
+        randomEmoticon
 
-        # Rerun the function if randomName contains a non-alphabetical character
-        while [[ "${randomName}" =~ [^a-zA-Z] ]]; do
-            fetchRandomName
+        # If the user replies with a 'Yes', repick one
+        while [[ $REPLY =~ ^[Yy]$ ]]; do
+            randomEmoticon
         done
-
-        # Finally print the emoticon and copy it to the clipboard
-        printf  "%b %b$randomName was copied to the clipboard successfully:%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-        echo -e ${!randomName} | tee >(copyToClipboard)
     else
         # Convert all uppercase characters to lowercase
         set $(echo $1 | tr '[:upper:]' '[:lower:]')
