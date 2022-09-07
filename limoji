@@ -110,7 +110,6 @@ if [ $# == 1 ]; then
         fi
     fi
 else
-    # TODO: Implement a help page
     printf "%b %bInvalid argument!%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
     printf "Try 'limoji --help' for a list of available commands.\n"
 fi
