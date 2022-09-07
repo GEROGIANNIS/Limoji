@@ -21,6 +21,9 @@ All you have to do is pick the right one or let Limoji choose it for you!
 * Hundreds of available emoticons to choose from
 * Random emoticon generator
 * Automatic copy to the clipboard
+* 100% free and open source
+* Lightweight and responsive
+* Tiny footprint (less than 10KB!)
 * Wayland support
 
 # Installation
