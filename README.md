@@ -23,7 +23,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 * Automatic copy to the clipboard
 * 100% free and open source
 * Lightweight and responsive
-* Tiny footprint (less than 10KB!)
+* Tiny footprint (less than 30KB!)
 * Wayland support
 
 # Installation
