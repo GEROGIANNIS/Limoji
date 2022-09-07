@@ -23,7 +23,7 @@
         <img alt="Merged PRs" src="https://flat.badgen.net/github/merged-prs/GEROGIANNIS/Limoji?color=purple">
     </a>
     <a href="https://github.com/GEROGIANNIS/Limoji/actions">
-        <img alt="CI" src="https://flat.badgen.net/github/status/GEROGIANNIS/Limoji/main/ci">
+        <img alt="CI" src="https://flat.badgen.net/github/checks/GEROGIANNIS/Limoji">
     </a>
 </div>
 
