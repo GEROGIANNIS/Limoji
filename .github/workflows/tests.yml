@@ -1,0 +1,19 @@
+name: Tests
+on:
+  - push
+  - pull_request
+  - workflow_call
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          ignore_names: ascii
+        env:
+          SHELLCHECK_OPTS: -x
