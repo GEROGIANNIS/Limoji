@@ -11,19 +11,19 @@
     Turning your favorite emojis into the world of ASCII
     </p>
     <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">
-        <img alt="Releases" src="https://badgen.net/github/release/GEROGIANNIS/Limoji/stable?color=green">
+        <img alt="Releases" src="https://flat.badgen.net/github/release/GEROGIANNIS/Limoji/stable?color=green">
     </a>
     <a href="https://github.com/GEROGIANNIS/Limoji/blob/main/LICENSE">
-        <img alt="License" src="https://badgen.net/github/license/GEROGIANNIS/Limoji?color=orange">
+        <img alt="License" src="https://flat.badgen.net/github/license/GEROGIANNIS/Limoji?color=orange">
     </a>
     <a href="https://github.com/GEROGIANNIS/Limoji/graphs/contributors">
-        <img alt="Contributors" src="https://badgen.net/github/contributors/GEROGIANNIS/Limoji">
+        <img alt="Contributors" src="https://flat.badgen.net/github/contributors/GEROGIANNIS/Limoji">
     </a>
     <a href="https://github.com/GEROGIANNIS/Limoji/pulls">
-        <img alt="Merged PRs" src="https://badgen.net/github/merged-prs/GEROGIANNIS/Limoji?color=purple">
+        <img alt="Merged PRs" src="https://flat.badgen.net/github/merged-prs/GEROGIANNIS/Limoji?color=purple">
     </a>
     <a href="https://github.com/GEROGIANNIS/Limoji/actions">
-        <img alt="CI" src="https://badgen.net/github/status/GEROGIANNIS/Limoji/main/ci">
+        <img alt="CI" src="https://flat.badgen.net/github/status/GEROGIANNIS/Limoji/main/ci">
     </a>
 </div>
 
