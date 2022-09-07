@@ -16,6 +16,13 @@ Limoji is an open source tool that makes it easy to choose between hundreds of c
 
 All you have to do is pick the right one or let Limoji choose it for you!
 
+# Features
+
+* Hundreds of available emoticons to choose from
+* Random emoticon generator
+* Automatic copy to the clipboard
+* Wayland support
+
 # Installation
 
 ## Debian / Ubuntu-based distributions (Officially supported)
