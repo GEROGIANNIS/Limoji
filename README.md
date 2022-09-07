@@ -16,6 +16,16 @@ Limoji is an open source tool that makes it easy to choose between hundreds of c
 
 All you have to do is pick the right one or let Limoji choose it for you!
 
+# Features
+
+* Hundreds of available emoticons to choose from
+* Random emoticon generator
+* Automatic copy to the clipboard
+* 100% free and open source
+* Lightweight and responsive
+* Tiny footprint (less than 30KB!)
+* Wayland support
+
 # Installation
 
 ## Debian / Ubuntu-based distributions (Officially supported)
@@ -72,7 +82,9 @@ cd ~/Limoji && git pull
 
 # Usage
 
-```limoji [emoticon-name]```
+```bash
+limoji <emoticon-name>
+```
 
 Example:
 
@@ -137,13 +149,12 @@ This script will automatically do the following:
 GitHub actions is configured to build the package afterwards and draft a release.
 
 <br>
-<br>
 
-Todo:
+#### Todo:
 - [ ] Localization
 - [x] Packaging
-- [ ] Help Page
-- [ ] BetterDiscord Support
+- [x] Help Page
 - [x] Update README.md
 - [x] Make A Release
 - [x] Add Option To Receive Another Emoticon
+- [ ] BetterDiscord Support (Needs a complete rewrite of Limoji)
