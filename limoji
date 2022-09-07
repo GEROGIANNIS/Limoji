@@ -83,11 +83,11 @@ fi
 
 # Detect number of arguments
 if [ $# == 1 ]; then
-    if [ "$1" == --emoticons ]; then
+    if [ "$1" == --emoticons ] || [ "$1" == -e ]; then
         echo -e "$(cat ./ascii)"
-    elif [ "$1" == --help ]; then
-        echo -e "Usage: limoji <emoticon>\nlimoji --random   Print a random emoticon\nlimoji --emoticon Show a list of the available emoticons\nlimoji --version  Display Limoji's version\nlimoji --help	  Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji"
-    elif [ "$1" == --random ]; then
+    elif [ "$1" == --help ] || [ "$1" == -h ]; then
+        echo -e "Usage: limoji <emoticon>\nlimoji -r, --random    Print a random emoticon\nlimoji -e, --emoticon  Show a list of the available emoticons\nlimoji -v, --version   Display Limoji's version\nlimoji -h, --help      Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji"
+    elif [ "$1" == --random ] || [ "$1" == -r ]; then
         # Picks a random emoticon
         randomEmoticon
 
@@ -95,7 +95,7 @@ if [ $# == 1 ]; then
         while [[ $REPLY =~ ^[Yy]$ ]]; do
             randomEmoticon
         done
-    elif [ "$1" == --version ]; then
+    elif [ "$1" == --version ] || [ "$1" == -v ]; then
         printf "Limoji %s\n" "${VERSION}"
     else
         # Convert all uppercase characters to lowercase
