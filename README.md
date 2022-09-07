@@ -1,11 +1,30 @@
 <div align="center">
-    <h1>Limoji</h1>
-    <p>Turning your favorite emojis into the world of ASCII</p>
-    <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest"><img alt="Releases" src="https://badgen.net/github/release/GEROGIANNIS/Limoji/stable?color=green"></a>
-    <a href="https://github.com/GEROGIANNIS/Limoji/blob/main/LICENSE"><img alt="License" src="https://badgen.net/github/license/GEROGIANNIS/Limoji?color=orange"></a>
-    <a href="https://github.com/GEROGIANNIS/Limoji/graphs/contributors"><img alt="Contributors" src="https://badgen.net/github/contributors/GEROGIANNIS/Limoji"></a>
-    <a href="https://github.com/GEROGIANNIS/Limoji/pulls"><img alt="Merged PRs" src="https://badgen.net/github/merged-prs/GEROGIANNIS/Limoji?color=purple"></a>
-    <a href="https://github.com/GEROGIANNIS/Limoji/actions"><img alt="CI" src="https://badgen.net/github/status/GEROGIANNIS/Limoji/main/ci"></a>
+    <pre>|==========================================|
+ ██╗     ██╗███╗   ███╗ ██████╗      ██╗██╗
+ ██║     ██║████╗ ████║██╔═══██╗     ██║██║
+ ██║     ██║██╔████╔██║██║   ██║     ██║██║
+ ██║     ██║██║╚██╔╝██║██║   ██║██   ██║██║
+ ███████╗██║██║ ╚═╝ ██║╚██████╔╝╚█████╔╝██║
+ ╚══════╝╚═╝╚═╝     ╚═╝ ╚═════╝  ╚════╝ ╚═╝
+|==========================================|</pre>
+    <p>
+    Turning your favorite emojis into the world of ASCII
+    </p>
+    <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">
+        <img alt="Releases" src="https://badgen.net/github/release/GEROGIANNIS/Limoji/stable?color=green">
+    </a>
+    <a href="https://github.com/GEROGIANNIS/Limoji/blob/main/LICENSE">
+        <img alt="License" src="https://badgen.net/github/license/GEROGIANNIS/Limoji?color=orange">
+    </a>
+    <a href="https://github.com/GEROGIANNIS/Limoji/graphs/contributors">
+        <img alt="Contributors" src="https://badgen.net/github/contributors/GEROGIANNIS/Limoji">
+    </a>
+    <a href="https://github.com/GEROGIANNIS/Limoji/pulls">
+        <img alt="Merged PRs" src="https://badgen.net/github/merged-prs/GEROGIANNIS/Limoji?color=purple">
+    </a>
+    <a href="https://github.com/GEROGIANNIS/Limoji/actions">
+        <img alt="CI" src="https://badgen.net/github/status/GEROGIANNIS/Limoji/main/ci">
+    </a>
 </div>
 
 <br>
@@ -19,18 +38,18 @@ All you have to do is pick the right one or let Limoji choose it for you!
 # Features
 
 * Hundreds of available emoticons to choose from
-* Random emoticon generator
 * Automatic copy to the clipboard
+* Random emoticon generator
 * 100% free and open source
 * Lightweight and responsive
-* Tiny footprint (less than 30KB!)
 * Wayland support
+* Tiny footprint (less than 30KB!)
 
 # Installation
 
 ## Debian / Ubuntu-based distributions (Officially supported)
 
-Limoji is available as a <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">deb package</a>.
+Install Limoji using the available <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">deb package</a>.
 
 ## Other GNU/Linux distributions
 
@@ -115,15 +134,15 @@ $ limoji happy
     </tr>
 </table>
 
-## Development
+# Development
 
-### Contributing to the project
+## Contributing to the project
 
 1. Fork Limoji
 2. Apply your proposed changes to the fork
 3. Open a Pull Request
 
-### Deployment
+## Deployment
 
 When everything is ready for a release, the version number needs to be incremented:
 
@@ -148,9 +167,7 @@ This script will automatically do the following:
 
 GitHub actions is configured to build the package afterwards and draft a release.
 
-<br>
-
-#### Todo:
+# Todo:
 - [ ] Localization
 - [x] Packaging
 - [x] Help Page
