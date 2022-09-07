@@ -139,13 +139,12 @@ This script will automatically do the following:
 GitHub actions is configured to build the package afterwards and draft a release.
 
 <br>
-<br>
 
-Todo:
+#### Todo:
 - [ ] Localization
 - [x] Packaging
 - [x] Help Page
-- [ ] BetterDiscord Support
 - [x] Update README.md
 - [x] Make A Release
 - [x] Add Option To Receive Another Emoticon
+- [ ] BetterDiscord Support (Needs a complete rewrite of Limoji)
