@@ -20,7 +20,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 
 ## Debian / Ubuntu-based distributions (Officially supported)
 
-Install Limoji from the available <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">deb package</a>.
+Limoji is available as a <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">deb package</a>.
 
 ## Other GNU/Linux distributions
 
@@ -73,7 +73,7 @@ cd ~/Limoji && git pull
 # Usage
 
 ```bash
-$ limoji <emoticon-name>
+limoji <emoticon-name>
 ```
 
 Example:
