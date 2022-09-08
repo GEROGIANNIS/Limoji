@@ -117,19 +117,19 @@ $ limoji happy
 
 <table>
     <tr>
-        <td><code>limoji --random</code></td>
+        <td><code>-r, --random</code></td>
         <td>Print a random emoticon</td>
     </tr>
     <tr>
-        <td><code>limoji --emoticon</code></td>
+        <td><code>-e, --emoticon</code></td>
         <td>Show a list of the available emoticons</td>
     </tr>
     <tr>
-        <td><code>limoji --version</code></td>
+        <td><code>-v, --version</code></td>
         <td>Display Limoji's version</td>
     </tr>
     <tr>
-        <td><code>limoji --help</code></td>
+        <td><code>-h, --help</code></td>
         <td>Show this list</td>
     </tr>
 </table>
