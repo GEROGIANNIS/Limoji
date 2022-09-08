@@ -31,7 +31,7 @@ copyToClipboard() {
 # Function that picks a random emoticon name
 fetchRandomName() {
     # Generate a random number between 1 and ascii line count
-    randomLine=$(( 1 + RANDOM % $(wc -l ascii | awk '{print $1}') ))
+    randomLine=$(( 1 + RANDOM % $(wc -l < ascii) ))
 
     # Fetch emoticon's name from the selected line
     randomName=$(head -$randomLine ascii | tail +$randomLine | cut -d= -f1)
@@ -58,10 +58,10 @@ randomEmoticon() {
 }
 
 listEmoticons() {
-    for (( c=2; c<=$(wc -l ascii | awk '{print $1}'); c++ ))
+    for (( c=2; c<=$(wc -l < ascii); c++ ))
     do
         name=$(sed "${c}q;d" ascii | cut -d= -f1)
-        echo $name":"
+        echo $name ":"
         echo -e ${!name}
         echo
     done
