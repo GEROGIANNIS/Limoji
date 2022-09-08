@@ -57,6 +57,16 @@ randomEmoticon() {
     printf "\n"
 }
 
+listEmoticons() {
+    for (( c=2; c<=$(wc -l ascii | awk '{print $1}'); c++ ))
+    do
+        name=$(sed "${c}q;d" ascii | cut -d= -f1)
+        echo $name":"
+        echo -e ${!name}
+        echo
+    done
+}
+
 # Disable globbing
 set -f
 
@@ -84,7 +94,7 @@ fi
 # Detect number of arguments
 if [ $# == 1 ]; then
     if [ "$1" == --emoticons ] || [ "$1" == -e ]; then
-        echo -e "$(cat ./ascii)"
+        listEmoticons
     elif [ "$1" == --help ] || [ "$1" == -h ]; then
         echo -e "Usage: limoji <emoticon>\n  -r, --random    Print a random emoticon\n  -e, --emoticon  Show a list of the available emoticons\n  -v, --version   Display Limoji's version\n  -h, --help      Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji"
     elif [ "$1" == --random ] || [ "$1" == -r ]; then
