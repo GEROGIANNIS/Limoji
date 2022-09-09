@@ -21,5 +21,5 @@ git tag "${REL_VER}" > /dev/null
 echo "Pushing tags..."
 
 # Push the release commit & tags
-git push > /dev/null
-git push --tags > /dev/null
+git push > /dev/null 2>&1
+git push --tags > /dev/null 2>&1
