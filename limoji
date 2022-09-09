@@ -25,6 +25,9 @@ copyToClipboard() {
         xclip -selection c
     elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
         wl-copy
+    else 
+        printf "%b %bYour system is not supported yet, please make an issue here%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+        printf "    https://github.com/GEROGIANNIS/Limoji/issues/new/choose\n"
     fi
 }
 
