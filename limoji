@@ -1,7 +1,7 @@
 #!/bin/bash
-# Limoji 0.1.0
+# Limoji 0.2.0
 
-readonly VERSION="0.1.0"
+readonly VERSION="0.2.0"
 
 parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
 

@@ -1,3 +1,9 @@
+limoji (0.2.0) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Lefteris Garyfalakis <lefterisgar@gmail.com>  Sat, 10 Sep 2022 01:07:38 +0300
+
 limoji (0.1.0) unstable; urgency=medium
 
   * Initial beta release.
