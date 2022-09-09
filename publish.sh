@@ -3,6 +3,11 @@
 export DEBFULLNAME="Lefteris Garyfalakis"
 export DEBEMAIL="lefterisgar@gmail.com"
 
+if ! hash dch 2> /dev/null; then
+    echo Please install devscripts and try again!
+    exit 2
+fi
+
 # Update changelog
 REL_VER=$(grep "^readonly VERSION" limoji | cut -d'"' -f2)
 dch -v "${REL_VER}" --distribution=unstable "New upstream release." > /dev/null
