@@ -54,7 +54,7 @@ randomEmoticon() {
     # Ask the user if he wants another emoticon
     printf "\n%b Do you want another one? (y/n) " "${QUESTION}"
     read -n 1 -r
-    printf "\n\n"
+    printf "\n"
 }
 
 listEmoticons() {
