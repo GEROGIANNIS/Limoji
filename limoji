@@ -28,33 +28,41 @@ copyToClipboard() {
     fi
 }
 
+# A function that prints the selected emoticon to the console
+printEmoticon() {
+    printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
+    printf "%b" "${!1}" | tee >(copyToClipboard)
+    printf "\n"
+}
+
 # Function that picks a random emoticon name
 fetchRandomName() {
     # Generate a random number between 1 and ascii line count
-    randomLine=$(( 1 + RANDOM % $(wc -l ascii | awk '{print $1}') ))
+    randomLine=$(( 1 + RANDOM % ASCII_LINES ))
 
     # Fetch emoticon's name from the selected line
-    randomName=$(head -$randomLine ascii | tail +$randomLine | cut -d= -f1)
+    randomName=$(sed "${randomLine}q;d" ascii | cut -d= -f1)
 }
 
 randomEmoticon() {
     # Picks a random emoticon name
     fetchRandomName
 
-    # Rerun the function if randomName contains a non-alphabetical character
-    while [[ "${randomName}" =~ [^a-zA-Z] ]]; do
-        fetchRandomName
-    done
+    # Print the emoticon and copy it to the clipboard
+    printEmoticon "$randomName"
 
-    # Finally print the emoticon and copy it to the clipboard
-    printf "%b %b$randomName was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-    # shellcheck disable=SC2086 # Intended splitting
-    echo -e ${!randomName} | tee >(copyToClipboard)
-
-    #Ask the user if he wants another emoticon
-    printf "%b Do you want another one? (y/n) " "${QUESTION}"
+    # Ask the user if he wants another emoticon
+    printf "\n%b Do you want another one? (y/n) " "${QUESTION}"
     read -n 1 -r
     printf "\n"
+}
+
+listEmoticons() {
+    for (( c=2; c<=ASCII_LINES; c++ ))
+    do
+        name=$(sed "${c}q;d" ascii | cut -d= -f1)
+        printf "%b:\n%b\n\n" "$name" "${!name}"
+    done
 }
 
 # Disable globbing
@@ -62,6 +70,9 @@ set -f
 
 # Fetch all emoticons from the file
 source ascii
+
+# Store the number of emoticons in a variable
+ASCII_LINES=$(wc -l < ascii)
 
 # Check if current session is X11
 if [ "$XDG_SESSION_TYPE" == "x11" ]; then
@@ -84,9 +95,9 @@ fi
 # Detect number of arguments
 if [ $# == 1 ]; then
     if [ "$1" == --emoticons ] || [ "$1" == -e ]; then
-        echo -e "$(cat ./ascii)"
+        listEmoticons
     elif [ "$1" == --help ] || [ "$1" == -h ]; then
-        echo -e "Usage: limoji <emoticon>\n  -r, --random    Print a random emoticon\n  -e, --emoticon  Show a list of the available emoticons\n  -v, --version   Display Limoji's version\n  -h, --help      Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji"
+        printf "Usage: limoji <emoticon>\n  -r, --random    Print a random emoticon\n  -e, --emoticon  Show a list of the available emoticons\n  -v, --version   Display Limoji's version\n  -h, --help      Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji\n"
     elif [ "$1" == --random ] || [ "$1" == -r ]; then
         # Picks a random emoticon
         randomEmoticon
@@ -96,16 +107,14 @@ if [ $# == 1 ]; then
             randomEmoticon
         done
     elif [ "$1" == --version ] || [ "$1" == -v ]; then
-        printf "Limoji %s\n" "${VERSION}"
+        printf "Limoji %b\n" "${VERSION}"
     else
         # Convert all uppercase characters to lowercase
-        set "$(echo "$1" | tr '[:upper:]' '[:lower:]')"
+        set "$(printf "%b" "$1" | tr '[:upper:]' '[:lower:]')"
 
         # Check if the selected emoticon exists
         if ! test -z "${!1}"; then
-            printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-            # shellcheck disable=SC2086 # Intended splitting
-            echo -e ${!1} | tee >(copyToClipboard)
+            printEmoticon "$1"
         else
             printf "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
             printf "Try 'limoji --emoticons' for a list of available emojis.\n"
