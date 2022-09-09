@@ -74,7 +74,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 Run the following commands to add it:
 ```sh
 # Add the repository
-echo "deb [trusted=yes] https://apt.fury.io/lefterisgar/ * *" > \
+sudo echo "deb [trusted=yes] https://apt.fury.io/lefterisgar/ * *" > \
 /etc/apt/sources.list.d/limoji.list
 
 # Update the package indexes
