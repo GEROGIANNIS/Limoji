@@ -49,7 +49,7 @@ randomEmoticon() {
     # Finally print the emoticon and copy it to the clipboard
     printf "%b %b$randomName was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
     # shellcheck disable=SC2086 # Intended splitting
-    echo -e ${!randomName} | tee >(copyToClipboard)
+    printf "${!randomName}" | tee >(copyToClipboard)
 
     #Ask the user if he wants another emoticon
     printf "%b Do you want another one? (y/n) " "${QUESTION}"
@@ -96,7 +96,7 @@ if [ $# == 1 ]; then
     if [ "$1" == --emoticons ] || [ "$1" == -e ]; then
         listEmoticons
     elif [ "$1" == --help ] || [ "$1" == -h ]; then
-        echo -e "Usage: limoji <emoticon>\n  -r, --random    Print a random emoticon\n  -e, --emoticon  Show a list of the available emoticons\n  -v, --version   Display Limoji's version\n  -h, --help      Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji"
+        printf "Usage: limoji <emoticon>\n  -r, --random    Print a random emoticon\n  -e, --emoticon  Show a list of the available emoticons\n  -v, --version   Display Limoji's version\n  -h, --help      Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji\n"
     elif [ "$1" == --random ] || [ "$1" == -r ]; then
         # Picks a random emoticon
         randomEmoticon
@@ -109,13 +109,13 @@ if [ $# == 1 ]; then
         printf "Limoji %s\n" "${VERSION}"
     else
         # Convert all uppercase characters to lowercase
-        set "$(echo "$1" | tr '[:upper:]' '[:lower:]')"
+        set "$(printf "$1" | tr '[:upper:]' '[:lower:]')"
 
         # Check if the selected emoticon exists
         if ! test -z "${!1}"; then
             printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
             # shellcheck disable=SC2086 # Intended splitting
-            echo -e ${!1} | tee >(copyToClipboard)
+            printf "${!1}\n" | tee >(copyToClipboard)
         else
             printf "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
             printf "Try 'limoji --emoticons' for a list of available emojis.\n"
