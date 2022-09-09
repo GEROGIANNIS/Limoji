@@ -38,7 +38,7 @@ printEmoticon() {
 # Function that picks a random emoticon name
 fetchRandomName() {
     # Generate a random number between 1 and ascii line count
-    randomLine=$(( 1 + RANDOM % ASCII_LINES ))
+    randomLine=$(( 2 + RANDOM % (ASCII_LINES - 1) ))
 
     # Fetch emoticon's name from the selected line
     randomName=$(sed "${randomLine}q;d" ascii | cut -d= -f1)
