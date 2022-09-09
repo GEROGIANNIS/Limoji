@@ -28,10 +28,16 @@ copyToClipboard() {
     fi
 }
 
+# A function that prints the selected emoticon to the console
+printEmoticon() {
+    printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
+    printf "%b\n" "${!1}" | tee >(copyToClipboard)
+}
+
 # Function that picks a random emoticon name
 fetchRandomName() {
     # Generate a random number between 1 and ascii line count
-    randomLine=$(( 1 + RANDOM % $ASCII_LINES ))
+    randomLine=$(( 1 + RANDOM % ASCII_LINES ))
 
     # Fetch emoticon's name from the selected line
     randomName=$(sed "${randomLine}q;d" ascii | cut -d= -f1)
@@ -42,17 +48,16 @@ randomEmoticon() {
     fetchRandomName
 
     # Print the emoticon and copy it to the clipboard
-    printf "%b %b$randomName was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-    printf "%b" "${!randomName}" | tee >(copyToClipboard)
+    printEmoticon "$randomName"
 
     # Ask the user if he wants another emoticon
-    printf "%b Do you want another one? (y/n) " "${QUESTION}"
+    printf "\n%b Do you want another one? (y/n) " "${QUESTION}"
     read -n 1 -r
-    printf "\n"
+    printf "\n\n"
 }
 
 listEmoticons() {
-    for (( c=2; c<=$ASCII_LINES; c++ ))
+    for (( c=2; c<=ASCII_LINES; c++ ))
     do
         name=$(sed "${c}q;d" ascii | cut -d= -f1)
         printf "%b:\n%b\n\n" "$name" "${!name}"
@@ -65,6 +70,7 @@ set -f
 # Fetch all emoticons from the file
 source ascii
 
+# Store the number of emoticons in a variable
 ASCII_LINES=$(wc -l < ascii)
 
 # Check if current session is X11
@@ -107,8 +113,7 @@ if [ $# == 1 ]; then
 
         # Check if the selected emoticon exists
         if ! test -z "${!1}"; then
-            printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-            printf "%b\n" "${!1}\n" | tee >(copyToClipboard)
+            printEmoticon "$1"
         else
             printf "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
             printf "Try 'limoji --emoticons' for a list of available emojis.\n"
