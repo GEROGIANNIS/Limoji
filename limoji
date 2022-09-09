@@ -23,7 +23,7 @@ QUESTION="${COL_NC}[${COL_LIGHT_BLUE}?${COL_NC}]"
 copyToClipboard() {
     if [ "$XDG_SESSION_TYPE" == "x11" ]; then
         xclip -selection c
-    else
+    elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
         wl-copy
     fi
 }
@@ -81,8 +81,8 @@ if [ "$XDG_SESSION_TYPE" == "x11" ]; then
         printf "%b %bxclip is required for copying text to the clipboard%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
         exit 2
     fi
-# Otherwise it is Wayland
-else
+# Otherwise, check if it is Wayland
+elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
     # Verify wl-clipboard has been installed
     if ! hash wl-copy 2> /dev/null; then
         printf "%b Wayland detected\n" "${INFO}"
