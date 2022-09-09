@@ -3,6 +3,7 @@
 export DEBFULLNAME="Lefteris Garyfalakis"
 export DEBEMAIL="lefterisgar@gmail.com"
 
+# Check if devscripts package is installed
 if ! hash dch 2> /dev/null; then
     echo Please install devscripts and try again!
     exit 2
