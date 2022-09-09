@@ -1,7 +1,7 @@
 #!/bin/bash
-# Limoji 0.1.0
+# Limoji 0.2.0
 
-readonly VERSION="0.1.0"
+readonly VERSION="0.2.0"
 
 parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
 
@@ -31,10 +31,17 @@ copyToClipboard() {
     fi
 }
 
+# A function that prints the selected emoticon to the console
+printEmoticon() {
+    printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
+    printf "%b" "${!1}" | tee >(copyToClipboard)
+    printf "\n"
+}
+
 # Function that picks a random emoticon name
 fetchRandomName() {
     # Generate a random number between 1 and ascii line count
-    randomLine=$(( 1 + RANDOM % $ASCII_LINES ))
+    randomLine=$(( 2 + RANDOM % (ASCII_LINES - 1) ))
 
     # Fetch emoticon's name from the selected line
     randomName=$(sed "${randomLine}q;d" ascii | cut -d= -f1)
@@ -45,29 +52,37 @@ randomEmoticon() {
     fetchRandomName
 
     # Print the emoticon and copy it to the clipboard
-    printf "%b %b$randomName was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-    printf "%b" "${!randomName}" | tee >(copyToClipboard)
+    printEmoticon "$randomName"
 
     # Ask the user if he wants another emoticon
-    printf "%b Do you want another one? (y/n) " "${QUESTION}"
+    printf "\n%b Do you want another one? (y/n) " "${QUESTION}"
     read -n 1 -r
     printf "\n"
 }
 
+# Function that creates a list of the available emoticons
 listEmoticons() {
-    for (( c=2; c<=$ASCII_LINES; c++ ))
+    # Repeat for every single line
+    for (( c=2; c<=ASCII_LINES; c++ ))
     do
+        # Read emoticon's name
         name=$(sed "${c}q;d" ascii | cut -d= -f1)
+
+        # Print the name followed by the emoticon itself
         printf "%b:\n%b\n\n" "$name" "${!name}"
     done
 }
 
-# Disable globbing
-set -f
+# Prints an error message on invalid input
+invalidArgument() {
+    printf "%b %bInvalid argument!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+    printf "Try 'limoji --help' for a list of available commands.\n"
+}
 
 # Fetch all emoticons from the file
 source ascii
 
+# Store the number of emoticons in a variable
 ASCII_LINES=$(wc -l < ascii)
 
 # Check if current session is X11
@@ -104,23 +119,21 @@ if [ $# == 1 ]; then
         done
     elif [ "$1" == --version ] || [ "$1" == -v ]; then
         printf "Limoji %b\n" "${VERSION}"
-    else
+    # If input contains only alphanumeric characters
+    elif [[ "$1" =~ ^[[:alnum:]]+$ ]]; then
         # Convert all uppercase characters to lowercase
         set "$(printf "%b" "$1" | tr '[:upper:]' '[:lower:]')"
 
         # Check if the selected emoticon exists
         if ! test -z "${!1}"; then
-            printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-            printf "%b\n" "${!1}\n" | tee >(copyToClipboard)
+            printEmoticon "$1"
         else
             printf "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
             printf "Try 'limoji --emoticons' for a list of available emojis.\n"
         fi
+    else
+        invalidArgument
     fi
 else
-    printf "%b %bInvalid argument!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-    printf "Try 'limoji --help' for a list of available commands.\n"
+    invalidArgument
 fi
-
-# Enable globbing
-set -f
