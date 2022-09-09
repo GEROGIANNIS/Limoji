@@ -31,7 +31,8 @@ copyToClipboard() {
 # A function that prints the selected emoticon to the console
 printEmoticon() {
     printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-    printf "%b\n" "${!1}" | tee >(copyToClipboard)
+    printf "%b" "${!1}" | tee >(copyToClipboard)
+    printf "\n"
 }
 
 # Function that picks a random emoticon name
