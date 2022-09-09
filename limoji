@@ -61,9 +61,9 @@ listEmoticons() {
     for (( c=2; c<=$(wc -l < ascii); c++ ))
     do
         name=$(sed "${c}q;d" ascii | cut -d= -f1)
-        echo $name ":"
-        echo -e ${!name}
-        echo
+        printf "%b:\n" "$name"
+        printf "${!name}\n"
+        printf "\n"
     done
 }
 
