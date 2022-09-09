@@ -207,3 +207,4 @@ GitHub actions is configured to build the package afterwards and draft a release
 - [x] Update README.md
 - [x] Make A Release
 - [x] Add Option To Receive Another Emoticon
+- [ ] Add Info Command
