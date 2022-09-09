@@ -49,7 +49,40 @@ All you have to do is pick the right one or let Limoji choose it for you!
 
 ## Debian / Ubuntu-based distributions (Officially supported)
 
-Install Limoji using the available <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">deb package</a>.
+<table>
+	<th>Repository</th>
+	<th>Automatic Updates</th>
+	<th>How to install</th>
+	<tr>
+		<td>GitHub</td>
+		<td align="center">❌</td>
+		<td>
+			<a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">Download</a> the .deb file
+		</td>
+	</tr>
+        <tr>
+		<td>Gemfury</td>
+		<td align="center">✔️</td>
+		<td>
+			Follow the <a href=#apt-repository-gemfury>instructions below</a>
+		</td>
+	</tr>
+</table>
+
+### APT repository (Gemfury):
+
+Run the following commands to add it:
+```sh
+# Add the repository
+echo "deb [trusted=yes] https://apt.fury.io/lefterisgar/ * *" > \
+/etc/apt/sources.list.d/limoji.list
+
+# Update the package indexes
+sudo apt update
+
+# Install Limoji
+sudo apt install limoji
+```
 
 ## Other GNU/Linux distributions
 
