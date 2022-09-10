@@ -154,7 +154,7 @@ $ limoji happy
         <td>Print a random emoticon</td>
     </tr>
     <tr>
-        <td><code>-e, --emoticon</code></td>
+        <td><code>-e, --emoticons</code></td>
         <td>Show a list of the available emoticons</td>
     </tr>
     <tr>
