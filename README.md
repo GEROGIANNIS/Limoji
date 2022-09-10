@@ -29,7 +29,7 @@
 
 <br>
 
-# Introduction
+# :book: Introduction
 
 Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!
 
@@ -45,7 +45,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 * Wayland support
 * Tiny footprint (less than 30KB!)
 
-# Installation
+# ⬇️ Installation
 
 ## Debian / Ubuntu-based distributions (Officially supported)
 
@@ -62,7 +62,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 	</tr>
         <tr>
 		<td>Gemfury</td>
-		<td align="center">✔️</td>
+		<td align="center">:white_check_mark:</td>
 		<td>
 			Follow the <a href=#apt-repository-gemfury>instructions below</a>
 		</td>
@@ -74,7 +74,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 Run the following commands to add it:
 ```sh
 # Add the repository
-echo "deb [trusted=yes] https://apt.fury.io/lefterisgar/ * *" > \
+sudo echo "deb [trusted=yes] https://apt.fury.io/lefterisgar/ * *" > \
 /etc/apt/sources.list.d/limoji.list
 
 # Update the package indexes
@@ -132,7 +132,7 @@ You can update Limoji using:
 cd ~/Limoji && git pull
 ```
 
-# Usage
+# 📄 Usage
 
 ```bash
 limoji <emoticon-name>
@@ -167,7 +167,7 @@ $ limoji happy
     </tr>
 </table>
 
-# Development
+# 🔨 Development
 
 ## Contributing to the project
 
@@ -200,10 +200,11 @@ This script will automatically do the following:
 
 GitHub actions is configured to build the package afterwards and draft a release.
 
-# Todo:
+# 💬 Todo:
 - [ ] Localization
 - [x] Packaging
 - [x] Help Page
 - [x] Update README.md
 - [x] Make A Release
 - [x] Add Option To Receive Another Emoticon
+- [ ] Add Info Command
