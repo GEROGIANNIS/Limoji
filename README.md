@@ -150,16 +150,8 @@ $ limoji happy
 
 <table>
     <tr>
-        <td><code>-r, --random</code></td>
-        <td>Print a random emoticon</td>
-    </tr>
-    <tr>
         <td><code>-e, --emoticons</code></td>
         <td>Show a list of the available emoticons</td>
-    </tr>
-    <tr>
-        <td><code>-v, --version</code></td>
-        <td>Display Limoji's version</td>
     </tr>
     <tr>
         <td><code>-h, --help</code></td>
@@ -168,6 +160,14 @@ $ limoji happy
     <tr>
         <td><code>-i, --info</code></td>
         <td>Show info about the project</td>
+    </tr>
+    <tr>
+        <td><code>-r, --random</code></td>
+        <td>Print a random emoticon</td>
+    </tr>
+    <tr>
+        <td><code>-v, --version</code></td>
+        <td>Display Limoji's version</td>
     </tr>
 </table>
 

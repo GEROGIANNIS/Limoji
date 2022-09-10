@@ -110,7 +110,9 @@ if [ $# == 1 ]; then
     if [ "$1" == --emoticons ] || [ "$1" == -e ]; then
         listEmoticons
     elif [ "$1" == --help ] || [ "$1" == -h ]; then
-        printf "Usage: limoji <emoticon>\n  -r, --random    Print a random emoticon\n  -e, --emoticons  Show a list of the available emoticons\n  -v, --version   Display Limoji's version\n  -h, --help      Show this list\n  -i, --info      Show info about the project\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji\n"
+        printf "Usage: limoji <emoticon>\n  -e, --emoticons Show a list of the available emoticons\n  -h, --help      Show this list\n  -i, --info      Show info about the project\n  -r, --random    Print a random emoticon\n  -v, --version   Display Limoji's version\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji\n"
+    elif [ "$1" == --info ] || [ "$1" == -i ]; then
+        printf "%b Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!\n    All you have to do is pick the right one or let Limoji choose it for you!\n" "${INFO}"
     elif [ "$1" == --random ] || [ "$1" == -r ]; then
         # Picks a random emoticon
         randomEmoticon
@@ -119,8 +121,6 @@ if [ $# == 1 ]; then
         while [[ $REPLY =~ ^[Yy]$ ]]; do
             randomEmoticon
         done
-    elif [ "$1" == --info ] || [ "$1" == -i ]; then
-        printf "%b Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!\n    All you have to do is pick the right one or let Limoji choose it for you!\n" "${INFO}"
     elif [ "$1" == --version ] || [ "$1" == -v ]; then
         printf "Limoji %b\n" "${VERSION}"
     # If input contains only alphanumeric characters
