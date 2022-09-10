@@ -29,7 +29,7 @@
 
 <br>
 
-# :book: Introduction
+# 📖 Introduction
 
 Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!
 
@@ -62,7 +62,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 	</tr>
         <tr>
 		<td>Gemfury</td>
-		<td align="center">:white_check_mark:</td>
+		<td align="center">✔️</td>
 		<td>
 			Follow the <a href=#apt-repository-gemfury>instructions below</a>
 		</td>
