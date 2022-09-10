@@ -9,6 +9,12 @@ if ! hash dch 2> /dev/null; then
     exit 2
 fi
 
+# Check if git is installed
+if ! hash git 2> /dev/null; then
+    echo Please install git and try again!
+    exit 2
+fi
+
 # Update changelog
 REL_VER=$(grep "^readonly VERSION" limoji | cut -d'"' -f2)
 dch -v "${REL_VER}" --distribution=unstable "New upstream release." > /dev/null
