@@ -62,7 +62,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 	</tr>
         <tr>
 		<td>Gemfury</td>
-		<td align="center">✔️</td>
+		<td align="center">:white_check_mark:</td>
 		<td>
 			Follow the <a href=#apt-repository-gemfury>instructions below</a>
 		</td>
