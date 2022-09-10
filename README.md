@@ -29,7 +29,7 @@
 
 <br>
 
-# Introduction
+# :book: Introduction
 
 Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!
 
@@ -45,7 +45,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 * Wayland support
 * Tiny footprint (less than 30KB!)
 
-# Installation
+# ⬇️ Installation
 
 ## Debian / Ubuntu-based distributions (Officially supported)
 
@@ -132,7 +132,7 @@ You can update Limoji using:
 cd ~/Limoji && git pull
 ```
 
-# Usage
+# 📄 Usage
 
 ```bash
 limoji <emoticon-name>
@@ -167,7 +167,7 @@ $ limoji happy
     </tr>
 </table>
 
-# Development
+# 🔨 Development
 
 ## Contributing to the project
 
@@ -200,7 +200,7 @@ This script will automatically do the following:
 
 GitHub actions is configured to build the package afterwards and draft a release.
 
-# Todo:
+# 💬 Todo:
 - [ ] Localization
 - [x] Packaging
 - [x] Help Page
