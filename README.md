@@ -165,6 +165,10 @@ $ limoji happy
         <td><code>-h, --help</code></td>
         <td>Show this list</td>
     </tr>
+    <tr>
+        <td><code>-i, --info</code></td>
+        <td>Show info about the project</td>
+    </tr>
 </table>
 
 # 🔨 Development
@@ -207,4 +211,4 @@ GitHub actions is configured to build the package afterwards and draft a release
 - [x] Update README.md
 - [x] Make A Release
 - [x] Add Option To Receive Another Emoticon
-- [ ] Add Info Command
+- [x] Add Info Command
