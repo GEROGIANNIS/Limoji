@@ -108,7 +108,7 @@ if [ $# == 1 ]; then
     if [ "$1" == --emoticons ] || [ "$1" == -e ]; then
         listEmoticons
     elif [ "$1" == --help ] || [ "$1" == -h ]; then
-        printf "Usage: limoji <emoticon>\n  -r, --random    Print a random emoticon\n  -e, --emoticon  Show a list of the available emoticons\n  -v, --version   Display Limoji's version\n  -h, --help      Show this list\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji\n"
+        printf "Usage: limoji <emoticon>\n  -r, --random    Print a random emoticon\n  -e, --emoticon  Show a list of the available emoticons\n  -v, --version   Display Limoji's version\n  -h, --help      Show this list\n  -i, --info      Show info about the project\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji\n"
     elif [ "$1" == --random ] || [ "$1" == -r ]; then
         # Picks a random emoticon
         randomEmoticon
