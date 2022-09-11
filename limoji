@@ -145,6 +145,7 @@ main() {
     # Fail fast checks.
     # First, if no args are given, give the invalid argument message and exit
     (( ${#} == 0 )) && { invalidArgument; exit 1; }
+
     # Next, try to get a clipboard working
     setupClipboard
 
