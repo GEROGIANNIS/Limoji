@@ -1,38 +1,63 @@
 #!/bin/bash
 # Limoji 1.0.0
 
-readonly VERSION="1.0.0"
+limoji_version="1.0.0"
+readonly limoji_version
 
-parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
+# Functions for printing colored symbols to the console
+printCross() {
+    printf -- '[\e[1;31m✗\e[0m] \e[1;31m%b\e[0m\n' "${*}"
+}
 
-cd "$parent_path" || exit
+printInfo() {
+    printf -- '[\e[1;93mi\e[0m] %b' "${*}"
+}
 
-# A few values so the script can run in color
-COL_NC='\e[0m' # No Color
-COL_LIGHT_RED='\e[1;31m'
-COL_LIGHT_GREEN='\e[1;32m'
-COL_LIGHT_BLUE='\e[1;94m'
-COL_LIGHT_YELLOW='\e[1;93m'
-TICK="${COL_NC}[${COL_LIGHT_GREEN}✓${COL_NC}]"
-CROSS="${COL_NC}[${COL_LIGHT_RED}✗${COL_NC}]"
-INFO="${COL_NC}[${COL_LIGHT_YELLOW}i${COL_NC}]"
-QUESTION="${COL_NC}[${COL_LIGHT_BLUE}?${COL_NC}]"
+printQuestion() {
+    printf -- '\e[0m[\e[1;94m?\e[0m] %b' "${*}"
+}
 
-# A function that copies the selected emoticon to the clipboard
-# Works on both X11 and Wayland
-copyToClipboard() {
-    if [ "$XDG_SESSION_TYPE" == "x11" ]; then
-        xclip -selection c
-    else
-        wl-copy
-    fi
+printTick() {
+    printf -- '[\e[1;32m✓\e[0m] \e[1;32m%b\e[0m\n' "${*}"
 }
 
 # A function that prints the selected emoticon to the console
 printEmoticon() {
-    printf "%b %b$1 was copied to the clipboard successfully:%b\n" "${TICK}" "${COL_LIGHT_GREEN}" "${COL_NC}"
-    printf "%b" "${!1}" | tee >(copyToClipboard)
-    printf "\n"
+    printTick "${1} was copied to the clipboard successfully:"
+    printf -- '%b' "${!1}" | tee >(copyToClipboard)
+    printf -- '%s\n' ""
+}
+
+# Print a list of all the available commands
+printCmdHelp() {
+cat << EOF
+Usage: limoji <emoticon>
+  -e, --emoticons Show a list of the available emoticons
+  -h, --help      Show this list
+  -i, --info      Show info about the project
+  -r, --random    Print a random emoticon
+  -v, --version   Display Limoji's version
+  
+For more information you can visit our GitHub repository:
+https://github.com/GEROGIANNIS/Limoji
+
+EOF
+}
+
+# Print info about the project
+printCmdInfo() {
+    printInfo \
+    "Limoji is an open source tool that makes it easy to choose between
+    hundreds of cool ASCII emoticons and share them with your friends,
+    all done using the terminal!
+
+    All you have to do is pick the right one or let Limoji choose it for you!
+    \n"
+}
+
+# Print Limoji's version
+printCmdVersion() {
+    printf -- 'Limoji %b\n' "${limoji_version}"
 }
 
 # Function that picks a random emoticon name
@@ -44,100 +69,116 @@ fetchRandomName() {
     randomName=$(sed "${randomLine}q;d" ascii | cut -d= -f1)
 }
 
+# Function that picks a random emoticon
 randomEmoticon() {
-    # Picks a random emoticon name
-    fetchRandomName
+    local answer
+    answer="y"
+    # Until the user replies with something other than 'y', cycle through random emoticons
+    # If the user replies with 'Y', it will be lowercased (i.e. ${var,,}) for the test
+    until [[ "${answer,,}" != y ]]; do
+        # Picks a random emoticon name
+        fetchRandomName
 
-    # Print the emoticon and copy it to the clipboard
-    printEmoticon "$randomName"
+        # Print the emoticon and copy it to the clipboard
+        printEmoticon "${randomName}"
 
-    # Ask the user if he wants another emoticon
-    printf "%b Do you want another one? (y/n) " "${QUESTION}"
-    read -n 1 -r
-    printf "\n"
+        # Ask the user if he wants another emoticon
+        read -n 1 -r -p "$(printQuestion "Do you want another one? (y/n) ")" answer
+        printf -- '%s\n' ""
+    done
 }
 
 # Function that creates a list of the available emoticons
 listEmoticons() {
     # Repeat for every single line
-    for (( c=2; c<=ASCII_LINES; c++ ))
-    do
+    for (( c=2; c<=ASCII_LINES; c++ )); do
         # Read emoticon's name
         name=$(sed "${c}q;d" ascii | cut -d= -f1)
 
         # Print the name followed by the emoticon itself
-        printf "%b:\n%b\n\n" "$name" "${!name}"
+        printf -- '%b:\n%b\n\n' "${name}" "${!name}"
     done
 }
 
 # Prints an error message on invalid input
 invalidArgument() {
-    printf "%b %bInvalid argument!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-    printf "Try 'limoji --help' for a list of available commands.\n"
+    printCross "Invalid argument!"
+    printf -- '%s\n' "Try 'limoji --help' for a list of available commands."
 }
 
-# Fetch all emoticons from the file
-source ascii
-
-# Store the number of emoticons in a variable
-ASCII_LINES=$(wc -l < ascii)
-
-# Check if current session is X11
-if [ "$XDG_SESSION_TYPE" == "x11" ]; then
-    # Verify xclip has been installed
-    if ! hash xclip 2> /dev/null; then
-        printf "%b X11 detected\n" "${INFO}"
-        printf "%b %bxclip is required for copying text to the clipboard%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-        exit 2
-    fi
-# Otherwise, check if it is Wayland
-elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-    # Verify wl-clipboard has been installed
-    if ! hash wl-copy 2> /dev/null; then
-        printf "%b Wayland detected\n" "${INFO}"
-        printf "%b %bwl-clipboard is required for copying text to the clipboard%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-        exit 2
-    fi
-# Anything else is unsupported
-else
-    printf "%b %bYour system is not supported yet, please create an issue here:%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-    printf "    https://github.com/GEROGIANNIS/Limoji/issues/new/choose\n"
-    exit 1
-fi
-
-# Detect number of arguments
-if [ $# == 1 ]; then
-    if [ "$1" == --emoticons ] || [ "$1" == -e ]; then
-        listEmoticons
-    elif [ "$1" == --help ] || [ "$1" == -h ]; then
-        printf "Usage: limoji <emoticon>\n  -e, --emoticons Show a list of the available emoticons\n  -h, --help      Show this list\n  -i, --info      Show info about the project\n  -r, --random    Print a random emoticon\n  -v, --version   Display Limoji's version\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji\n"
-    elif [ "$1" == --info ] || [ "$1" == -i ]; then
-        printf "%b Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!\n    All you have to do is pick the right one or let Limoji choose it for you!\n" "${INFO}"
-    elif [ "$1" == --random ] || [ "$1" == -r ]; then
-        # Picks a random emoticon
-        randomEmoticon
-
-        # If the user replies with a 'Yes', repick one
-        while [[ $REPLY =~ ^[Yy]$ ]]; do
-            randomEmoticon
-        done
-    elif [ "$1" == --version ] || [ "$1" == -v ]; then
-        printf "Limoji %b\n" "${VERSION}"
-    # If input contains only alphanumeric characters
-    elif [[ "$1" =~ ^[[:alnum:]]+$ ]]; then
-        # Convert all uppercase characters to lowercase
-        set "$(printf "%b" "$1" | tr '[:upper:]' '[:lower:]')"
-
-        # Check if the selected emoticon exists
-        if ! test -z "${!1}"; then
-            printEmoticon "$1"
+# Attempt to figure out a clipboard handling method
+setupClipboard() {
+    # If X11 and xclip are simultaneously present, that's a preferred option
+    if [[ "${XDG_SESSION_TYPE}" = "x11" ]]; then
+        # Verify xclip has been installed
+        if command -v xclip >/dev/null 2>&1; then
+            copyToClipboard() { xclip -selection c; }
+            return 0
         else
-            printf "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-            printf "Try 'limoji --emoticons' for a list of available emojis.\n"
+            printInfo 'X11 detected\n'
+            printCross 'xclip is required for copying text to the clipboard'
+            exit 2
         fi
+    elif [[ "${XDG_SESSION_TYPE}" = "wayland" ]]; then
+        # wl-copy is preferred when using Wayland
+        if command -v wl-copy >/dev/null 2>&1; then
+            copyToClipboard() { wl-copy; }
+            return 0
+        # Fallback if wl-copy isn't installed
+        elif command -v xclip >/dev/null 2>&1; then
+            copyToClipboard() { xclip -selection c; }
+            return 0
+        else
+            printInfo 'Wayland detected\n'
+            printCross 'wl-clipboard is required for copying text to the clipboard'
+            exit 2
+        fi
+    # If we get to this point, then it only means that XDG_SESSION_TYPE isn't set
     else
-        invalidArgument
+        printCross "Your system is not supported yet, please create a new issue here:"
+        printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose" >&2
+        exit 1
     fi
-else
-    invalidArgument
-fi
+}
+
+main() {
+    # Fail fast checks.
+    # First, if no args are given, give the invalid argument message and exit
+    (( ${#} == 0 )) && { invalidArgument; exit 1; }
+
+    # Next, try to get a clipboard working
+    setupClipboard
+
+    # Fetch all emoticons from the file
+    source ascii
+
+    # Store the number of emoticons in a variable
+    ASCII_LINES=$(wc -l < ascii)
+
+    case "${1}" in
+        (--emoticons|-e)    listEmoticons ;;
+        (--help|-h)         printCmdHelp ;;
+        (--info|-i)         printCmdInfo ;;
+        (--random|-r)       randomEmoticon ;;
+        (--version|-v)      printCmdVersion ;;
+        (--*|-*)            invalidArgument ;;
+        (*)
+            # Convert all uppercase characters to lowercase
+            set -- "${1,,}"
+
+            # Check if the selected emoticon exists
+            if [[ -n "${!1}" ]]; then
+                printEmoticon "${1}"
+            else
+                printCross "The specified emoji doesn't exist!"
+                printf -- '%s\n' "Try 'limoji --emoticons' for a list of available emojis."
+            fi
+        ;;
+    esac
+}
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
+
+cd "${parent_path}" || exit
+
+main "${@}"
