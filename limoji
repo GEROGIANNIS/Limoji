@@ -103,7 +103,7 @@ listEmoticons() {
 # Prints an error message on invalid input
 invalidArgument() {
     printCross "Invalid argument!"
-    printf -- '%s\n' "Try 'limoji --help' for a list of available commands." >&2
+    printf -- '%s\n' "Try 'limoji --help' for a list of available commands."
 }
 
 # Attempt to figure out a clipboard handling method
@@ -116,7 +116,7 @@ setupClipboard() {
             return 0
         else
             printInfo 'X11 detected\n'
-            printCross 'xclip is required for copying text to the clipboard\n'
+            printCross 'xclip is required for copying text to the clipboard'
             exit 2
         fi
     elif [[ "${XDG_SESSION_TYPE}" = "wayland" ]]; then
@@ -130,7 +130,7 @@ setupClipboard() {
             return 0
         else
             printInfo 'Wayland detected\n'
-            printCross 'wl-clipboard is required for copying text to the clipboard\n'
+            printCross 'wl-clipboard is required for copying text to the clipboard'
             exit 2
         fi
     # If we get to this point, then it only means that XDG_SESSION_TYPE isn't set
