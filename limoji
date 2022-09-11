@@ -4,15 +4,9 @@
 limoji_version="1.0.0"
 readonly limoji_version
 
+# Functions for printing colored symbols to the console
 printCross() {
     printf -- '[\e[1;31m✗\e[0m] \e[1;31m%b\e[0m\n' "${*}" >&2
-}
-
-# A function that prints the selected emoticon to the console
-printEmoticon() {
-    printTick "${1} was copied to the clipboard successfully:"
-    printf -- '%b' "${!1}" | tee >(copyToClipboard)
-    printf -- '%s\n' ""
 }
 
 printInfo() {
@@ -27,6 +21,14 @@ printTick() {
     printf -- '[\e[1;32m✓\e[0m] \e[1;32m%b\e[0m\n' "${*}"
 }
 
+# A function that prints the selected emoticon to the console
+printEmoticon() {
+    printTick "${1} was copied to the clipboard successfully:"
+    printf -- '%b' "${!1}" | tee >(copyToClipboard)
+    printf -- '%s\n' ""
+}
+
+# Print a list of all the available commands
 printCmdHelp() {
 cat << EOF
 Usage: limoji <emoticon>
@@ -42,6 +44,7 @@ https://github.com/GEROGIANNIS/Limoji
 EOF
 }
 
+# Print info about the project
 printCmdInfo() {
     local lightYellow colorReset
     colorReset='\e[0m'
@@ -56,6 +59,7 @@ printCmdInfo() {
     "
 }
 
+# Print Limoji's version
 printCmdVersion() {
     printf -- 'Limoji %b\n' "${limoji_version}"
 }
@@ -69,6 +73,7 @@ fetchRandomName() {
     randomName=$(sed "${randomLine}q;d" ascii | cut -d= -f1)
 }
 
+# Function that picks a random emoticon
 randomEmoticon() {
     local answer
     answer="y"
