@@ -8,19 +8,23 @@ printCross() {
     printf -- '[\e[1;31m✗\e[0m] \e[1;31m%b\e[0m\n' "${*}" >&2
 }
 
-printTick() {
-    printf -- '[\e[1;32m✓\e[0m] \e[1;32m%b\e[0m\n' "${*}"
+# A function that prints the selected emoticon to the console
+printEmoticon() {
+    printTick "${1}"
+    printf -- '%b' "${!1}" | tee >(copyToClipboard)
+    printf -- '%s\n' ""
 }
 
 printInfo() {
     printf -- '[\e[1;93mi\e[0m] %b' "${*}"
 }
 
-# A function that prints the selected emoticon to the console
-printEmoticon() {
-    printTick "${1}"
-    printf -- '%b' "${!1}" | tee >(copyToClipboard)
-    printf -- '%s\n' ""
+printQuestion() {
+    printf -- '\e[0m[\e[1;94m?\e[0m] %b' "${*}"
+}
+
+printTick() {
+    printf -- '[\e[1;32m✓\e[0m] \e[1;32m%b\e[0m\n' "${*}"
 }
 
 printCmdHelp() {
@@ -66,12 +70,11 @@ fetchRandomName() {
 }
 
 randomEmoticon() {
-    local question answer
-    question="\e[0m[\e[1;94m?\e[0m]"
-    unset -v answer
+    local answer
+    answer="y"
     # Until the user replies with a 'y', cycle through random emoticons
     # If the user replies with 'Y', it will be lowercased (i.e. ${var,,}) for the test
-    until [[ "${answer,,}" = y ]]; do
+    until [[ "${answer,,}" != y ]]; do
         # Picks a random emoticon name
         fetchRandomName
 
@@ -79,7 +82,7 @@ randomEmoticon() {
         printEmoticon "${randomName}"
 
         # Ask the user if he wants another emoticon
-        read -n 1 -r -p "${question} Do you want another one? (y/n)" answer
+        read -n 1 -r -p "$(printQuestion "Do you want another one? (y/n) ")" answer
         printf -- '%s\n' ""
     done
 }
@@ -99,7 +102,7 @@ listEmoticons() {
 # Prints an error message on invalid input
 invalidArgument() {
     printCross "Invalid argument!"
-    printf -- '%s\n' "Try 'limoji --help' for a list of available commands."
+    printf -- '%s\n' "Try 'limoji --help' for a list of available commands." >&2
 }
 
 # Attempt to figure out a clipboard handling method
@@ -132,7 +135,7 @@ setupClipboard() {
         return 0
     else
         printCross "Your system is not supported yet, please create a new issue here:"
-        printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
+        printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose" >&2
         exit 1
     fi
 }
