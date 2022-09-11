@@ -23,7 +23,7 @@ printEmoticon() {
     printf -- '%s\n' ""
 }
 
-printHelp() {
+printCmdHelp() {
 cat << EOF
 Usage: limoji <emoticon>
   -e, --emoticons Show a list of the available emoticons
@@ -38,7 +38,7 @@ https://github.com/GEROGIANNIS/Limoji
 EOF
 }
 
-printInfo() {
+printCmdInfo() {
     local lightYellow colorReset
     colorReset='\e[0m'
     lightYellow='\e[1;93m'
@@ -52,7 +52,7 @@ printInfo() {
     "
 }
 
-printVersion() {
+printCmdVersion() {
     printf -- 'Limoji %b\n' "${limoji_version}"
 }
 
@@ -160,10 +160,10 @@ main() {
 
     case "${1}" in
         (--emoticons|-e)    listEmoticons ;;
-        (--help|-h)         printHelp ;;
-        (--info|-i)         printInfo ;;
+        (--help|-h)         printCmdHelp ;;
+        (--info|-i)         printCmdInfo ;;
         (--random|-r)       randomEmoticon ;;
-        (--version|-v)      printVersion ;;
+        (--version|-v)      printCmdVersion ;;
         (*)
             # Convert all uppercase characters to lowercase
             set -- "${1,,}"
