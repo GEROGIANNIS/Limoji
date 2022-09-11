@@ -16,7 +16,7 @@ if ! hash git 2> /dev/null; then
 fi
 
 # Update changelog
-REL_VER=$(grep "^readonly VERSION" limoji | cut -d'"' -f2)
+REL_VER=$(grep "^limoji_version" limoji | cut -d'"' -f2)
 dch -v "${REL_VER}" --distribution=unstable "New upstream release." > /dev/null
 
 echo "Creating the release commit..."
