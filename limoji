@@ -71,16 +71,21 @@ fetchRandomName() {
 }
 
 randomEmoticon() {
-    # Picks a random emoticon name
-    fetchRandomName
+    local answer
+    unset -v answer
+    # Until the user replies with a 'y', cycle through random emoticons
+    # If the user replies with 'Y', it will be lowercased (i.e. ${var,,}) for the test
+    until [[ "${answer,,}" = y ]]; do
+        # Picks a random emoticon name
+        fetchRandomName
 
-    # Print the emoticon and copy it to the clipboard
-    printEmoticon "$randomName"
+        # Print the emoticon and copy it to the clipboard
+        printEmoticon "${randomName}"
 
-    # Ask the user if he wants another emoticon
-    printf -- '%b Do you want another one? (y/n) ' "${QUESTION}"
-    read -n 1 -r
-    printf -- '%s\n' ""
+        # Ask the user if he wants another emoticon
+        read -n 1 -r -p "${QUESTION} Do you want another one? (y/n)" answer
+        printf -- '%s\n' ""
+    done
 }
 
 # Function that creates a list of the available emoticons
@@ -101,56 +106,53 @@ invalidArgument() {
     printf -- '%s\n' "Try 'limoji --help' for a list of available commands."
 }
 
-# Fetch all emoticons from the file
-source ascii
-
-# Store the number of emoticons in a variable
-ASCII_LINES=$(wc -l < ascii)
-
-# Check if current session is X11
-# Otherwise, check if it is Wayland
-# Anything else is unsupported
-case "${XDG_SESSION_TYPE}" in
-    (x11)
-        # Verify xclip has been installed
-        if ! command -v xclip >/dev/null 2>&1; then
-            printf -- '%b X11 detected\n' "${INFO}"
-            printf -- '%b %bxclip is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-            exit 2
-        fi
-    ;;
-    (wayland)
-        # Verify wl-clipboard has been installed
-        if ! command -v wl-copy >/dev/null 2>&1; then
-            printf -- '%b Wayland detected\n' "${INFO}"
-            printf -- '%b %bwl-clipboard is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-            exit 2
-        fi
-    ;;
-    (*)
-        printf -- '%b %bYour system is not supported yet, please create an issue here:%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-        printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
-        exit 1
-    ;;
-esac
+validateSessionType() {
+    # Check if current session is X11
+    # Otherwise, check if it is Wayland
+    # Anything else is unsupported
+    case "${XDG_SESSION_TYPE}" in
+        (x11)
+            # Verify xclip has been installed
+            if ! command -v xclip >/dev/null 2>&1; then
+                printf -- '%b X11 detected\n' "${INFO}"
+                printf -- '%b %bxclip is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+                exit 2
+            fi
+        ;;
+        (wayland)
+            # Verify wl-clipboard has been installed
+            if ! command -v wl-copy >/dev/null 2>&1; then
+                printf -- '%b Wayland detected\n' "${INFO}"
+                printf -- '%b %bwl-clipboard is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+                exit 2
+            fi
+        ;;
+        (*)
+            printf -- '%b %bYour system is not supported yet, please create an issue here:%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+            printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
+            exit 1
+        ;;
+    esac
+}
 
 main() {
-    # Fail fast
+    # Fail fast checks.
+    # First, if no args are given, give the invalid argument message and exit
     (( ${#} == 0 )) && { invalidArgument; exit 1; }
+    # Next, validate our session type
+    validateSessionType
+
+    # Fetch all emoticons from the file
+    source ascii
+
+    # Store the number of emoticons in a variable
+    ASCII_LINES=$(wc -l < ascii)
 
     case "${1}" in
         (--emoticons|-e)    listEmoticons ;;
         (--help|-h)         printHelp ;;
         (--info|-i)         printInfo ;;
-        (--random|-r)
-            # Picks a random emoticon
-            randomEmoticon
-
-            # If the user replies with a 'Yes', repick one
-            while [[ $REPLY =~ ^[Yy]$ ]]; do
-                randomEmoticon
-            done
-        ;;
+        (--random|-r)       randomEmoticon ;;
         (--version|-v)      printVersion ;;
         (*)
             # Convert all uppercase characters to lowercase
