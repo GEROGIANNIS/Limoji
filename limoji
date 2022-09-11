@@ -130,39 +130,43 @@ case "${XDG_SESSION_TYPE}" in
     ;;
 esac
 
-# Detect number of arguments
-if [ $# = 1 ]; then
-    if [ "$1" = --emoticons ] || [ "$1" = -e ]; then
-        listEmoticons
-    elif [ "$1" = --help ] || [ "$1" = -h ]; then
-        printHelp
-    elif [ "$1" = --info ] || [ "$1" = -i ]; then
-        printInfo
-    elif [ "$1" = --random ] || [ "$1" = -r ]; then
-        # Picks a random emoticon
-        randomEmoticon
-
-        # If the user replies with a 'Yes', repick one
-        while [[ $REPLY =~ ^[Yy]$ ]]; do
+main() {
+    # Detect number of arguments
+    if [ $# = 1 ]; then
+        if [ "$1" = --emoticons ] || [ "$1" = -e ]; then
+            listEmoticons
+        elif [ "$1" = --help ] || [ "$1" = -h ]; then
+            printHelp
+        elif [ "$1" = --info ] || [ "$1" = -i ]; then
+            printInfo
+        elif [ "$1" = --random ] || [ "$1" = -r ]; then
+            # Picks a random emoticon
             randomEmoticon
-        done
-    elif [ "$1" = --version ] || [ "$1" = -v ]; then
-        printf -- 'Limoji %b\n' "${VERSION}"
-    # If input contains only alphanumeric characters
-    elif [[ "$1" =~ ^[[:alnum:]]+$ ]]; then
-        # Convert all uppercase characters to lowercase
-        set "$(printf -- '%b' "$1" | tr '[:upper:]' '[:lower:]')"
 
-        # Check if the selected emoticon exists
-        if ! test -z "${!1}"; then
-            printEmoticon "$1"
+            # If the user replies with a 'Yes', repick one
+            while [[ $REPLY =~ ^[Yy]$ ]]; do
+                randomEmoticon
+            done
+        elif [ "$1" = --version ] || [ "$1" = -v ]; then
+            printf -- 'Limoji %b\n' "${VERSION}"
+        # If input contains only alphanumeric characters
+        elif [[ "$1" =~ ^[[:alnum:]]+$ ]]; then
+            # Convert all uppercase characters to lowercase
+            set "$(printf -- '%b' "$1" | tr '[:upper:]' '[:lower:]')"
+
+            # Check if the selected emoticon exists
+            if ! test -z "${!1}"; then
+                printEmoticon "$1"
+            else
+                printf -- "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+                printf -- '%s\n' "Try 'limoji --emoticons' for a list of available emojis."
+            fi
         else
-            printf -- "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-            printf -- '%s\n' "Try 'limoji --emoticons' for a list of available emojis."
+            invalidArgument
         fi
     else
         invalidArgument
     fi
-else
-    invalidArgument
-fi
+}
+
+main "${@}"
