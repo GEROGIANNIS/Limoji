@@ -4,23 +4,6 @@
 limoji_version="1.0.0"
 readonly limoji_version
 
-parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
-
-cd "${parent_path}" || exit
-
-# A few values so the script can run in color
-
-
-# A function that copies the selected emoticon to the clipboard
-# Works on both X11 and Wayland
-copyToClipboard() {
-    if [[ "${XDG_SESSION_TYPE}" = "x11" ]]; then
-        xclip -selection c
-    else
-        wl-copy
-    fi
-}
-
 printCross() {
     printf -- '[\e[1;31m✗\e[0m] \e[1;31m%b\e[0m\n' "${*}" >&2
 }
@@ -119,10 +102,10 @@ invalidArgument() {
     printf -- '%s\n' "Try 'limoji --help' for a list of available commands."
 }
 
+# Check if current session is X11 or Wayland
+# and attempt to setup a clipboard copy function
+# Anything else is unsupported
 validateSessionType() {
-    # Check if current session is X11
-    # Otherwise, check if it is Wayland
-    # Anything else is unsupported
     case "${XDG_SESSION_TYPE}" in
         (x11)
             # Verify xclip has been installed
@@ -131,6 +114,7 @@ validateSessionType() {
                 printCross "xclip is required for copying text to the clipboard"
                 exit 1
             fi
+            copyToClipboard() { xclip -selection c; }
         ;;
         (wayland)
             # Verify wl-clipboard has been installed
@@ -139,11 +123,24 @@ validateSessionType() {
                 printCross "wl-clipboard is required for copying text to the clipboard"
                 exit 1
             fi
+            copyToClipboard() { wl-copy; }
         ;;
         (*)
-            printCross "Your system is not supported yet, please create a new issue here:"
-            printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
-            exit 1
+            # If we get to this point, then it only means that XDG_SESSION_TYPE isn't set
+            # We can run some more thorough heuristics to try and find a way to clipboard things
+            if command -v wl-copy >/dev/null 2>&1; then
+                copyToClipboard() { wl-copy; }
+            elif command -v xclip >/dev/null 2>&1; then
+                copyToClipboard() { xclip -selection c; }
+            elif command -v xsel >/dev/null 2>&1; then
+                copyToClipboard() { xsel --clipboard --input; }
+            elif command -v pbcopy >/dev/null 2>&1; then
+                copyToClipboard() { pbcopy; }
+            else
+                printCross "Your system is not supported yet, please create a new issue here:"
+                printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
+                exit 1
+            fi
         ;;
     esac
 }
@@ -181,5 +178,9 @@ main() {
         ;;
     esac
 }
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
+
+cd "${parent_path}" || exit
 
 main "${@}"
