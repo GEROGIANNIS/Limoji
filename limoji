@@ -57,6 +57,10 @@ All you have to do is pick the right one or let Limoji choose it for you!'
 EOF
 }
 
+printVersion() {
+    printf -- 'Limoji %b\n' "${VERSION}"
+}
+
 # Function that picks a random emoticon name
 fetchRandomName() {
     # Generate a random number between 1 and ascii line count
@@ -134,37 +138,33 @@ main() {
     # Fail fast
     (( ${#} == 0 )) && { invalidArgument; exit 1; }
 
-    if [[ "$1" = --emoticons ]] || [[ "$1" = -e ]]; then
-        listEmoticons
-    elif [[ "$1" = --help ]] || [[ "$1" = -h ]]; then
-        printHelp
-    elif [[ "$1" = --info ]] || [[ "$1" = -i ]]; then
-        printInfo
-    elif [[ "$1" = --random ]] || [[ "$1" = -r ]]; then
-        # Picks a random emoticon
-        randomEmoticon
-
-        # If the user replies with a 'Yes', repick one
-        while [[ $REPLY =~ ^[Yy]$ ]]; do
+    case "${1}" in
+        (--emoticons|-e)    listEmoticons ;;
+        (--help|-h)         printHelp ;;
+        (--info|-i)         printInfo ;;
+        (--random|-r)
+            # Picks a random emoticon
             randomEmoticon
-        done
-    elif [[ "$1" = --version ]] || [[ "$1" = -v ]]; then
-        printf -- 'Limoji %b\n' "${VERSION}"
-    # If input contains only alphanumeric characters
-    elif [[ "$1" =~ ^[[:alnum:]]+$ ]]; then
-        # Convert all uppercase characters to lowercase
-        set "$(printf -- '%b' "$1" | tr '[:upper:]' '[:lower:]')"
 
-        # Check if the selected emoticon exists
-        if [[ -n "${!1}" ]]; then
-            printEmoticon "$1"
-        else
-            printf -- "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-            printf -- '%s\n' "Try 'limoji --emoticons' for a list of available emojis."
-        fi
-    else
-        invalidArgument
-    fi
+            # If the user replies with a 'Yes', repick one
+            while [[ $REPLY =~ ^[Yy]$ ]]; do
+                randomEmoticon
+            done
+        ;;
+        (--version|-v)      printVersion ;;
+        (*)
+            # Convert all uppercase characters to lowercase
+            set "$(printf -- '%b' "$1" | tr '[:upper:]' '[:lower:]')"
+
+            # Check if the selected emoticon exists
+            if [[ -n "${!1}" ]]; then
+                printEmoticon "$1"
+            else
+                printf -- "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+                printf -- '%s\n' "Try 'limoji --emoticons' for a list of available emojis."
+            fi
+        ;;
+    esac
 }
 
 main "${@}"
