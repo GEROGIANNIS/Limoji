@@ -108,32 +108,32 @@ invalidArgument() {
 
 # Attempt to figure out a clipboard handling method
 setupClipboard() {
-    # If x11 and xclip are simultaneously present, that's a preferred option
-    if [[ "${XDG_SESSION_TYPE}" = "x11" ]] && command -v xclip >/dev/null 2>&1; then
-        copyToClipboard() { xclip -selection c; }
-        return 0
-    fi
-
-    # if wayland and wl-copy are simultaneously present, that's a preferred option
-    if [[ "${XDG_SESSION_TYPE}" = "wayland" ]] && command -v wl-copy >/dev/null 2>&1; then
-        copyToClipboard() { wl-copy; }
-        return 0
-    fi
-
+    # If X11 and xclip are simultaneously present, that's a preferred option
+    if [[ "${XDG_SESSION_TYPE}" = "x11" ]]; then
+        # Verify xclip has been installed
+        if command -v xclip >/dev/null 2>&1; then
+            copyToClipboard() { xclip -selection c; }
+            return 0
+        else
+            printInfo 'X11 detected\n'
+            printCross 'xclip is required for copying text to the clipboard\n'
+            exit 2
+        fi
+    elif [[ "${XDG_SESSION_TYPE}" = "wayland" ]]; then
+        # wl-copy is preferred when using Wayland
+        if command -v wl-copy >/dev/null 2>&1; then
+            copyToClipboard() { wl-copy; }
+            return 0
+        # Fallback if wl-copy isn't installed
+        elif command -v xclip >/dev/null 2>&1; then
+            copyToClipboard() { xclip -selection c; }
+            return 0
+        else
+            printInfo 'Wayland detected\n'
+            printCross 'wl-clipboard is required for copying text to the clipboard\n'
+            exit 2
+        fi
     # If we get to this point, then it only means that XDG_SESSION_TYPE isn't set
-    # We can run some more thorough heuristics to try and find a way to clipboard things
-    if command -v wl-copy >/dev/null 2>&1; then
-        copyToClipboard() { wl-copy; }
-        return 0
-    elif command -v xclip >/dev/null 2>&1; then
-        copyToClipboard() { xclip -selection c; }
-        return 0
-    elif command -v xsel >/dev/null 2>&1; then
-        copyToClipboard() { xsel --clipboard --input; }
-        return 0
-    elif command -v pbcopy >/dev/null 2>&1; then
-        copyToClipboard() { pbcopy; }
-        return 0
     else
         printCross "Your system is not supported yet, please create a new issue here:"
         printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose" >&2
