@@ -160,6 +160,7 @@ main() {
         (--info|-i)         printCmdInfo ;;
         (--random|-r)       randomEmoticon ;;
         (--version|-v)      printCmdVersion ;;
+        (--*|-*)            invalidArgument ;;
         (*)
             # Convert all uppercase characters to lowercase
             set -- "${1,,}"
