@@ -109,7 +109,7 @@ ASCII_LINES=$(wc -l < ascii)
 case "${XDG_SESSION_TYPE}" in
     (x11)
         # Verify xclip has been installed
-        if ! hash xclip 2> /dev/null; then
+        if ! command -v xclip >/dev/null 2>&1; then
             printf -- '%b X11 detected\n' "${INFO}"
             printf -- '%b %bxclip is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
             exit 2
@@ -117,7 +117,7 @@ case "${XDG_SESSION_TYPE}" in
     ;;
     (wayland)
         # Verify wl-clipboard has been installed
-        if ! hash wl-copy 2> /dev/null; then
+        if ! command -v wl-copy >/dev/null 2>&1; then
             printf -- '%b Wayland detected\n' "${INFO}"
             printf -- '%b %bwl-clipboard is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
             exit 2
