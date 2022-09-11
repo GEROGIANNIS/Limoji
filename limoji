@@ -72,7 +72,7 @@ fetchRandomName() {
 randomEmoticon() {
     local answer
     answer="y"
-    # Until the user replies with a 'y', cycle through random emoticons
+    # Until the user replies with something other than 'y', cycle through random emoticons
     # If the user replies with 'Y', it will be lowercased (i.e. ${var,,}) for the test
     until [[ "${answer,,}" != y ]]; do
         # Picks a random emoticon name
