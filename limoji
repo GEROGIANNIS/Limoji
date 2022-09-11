@@ -6,7 +6,7 @@ readonly limoji_version
 
 # Functions for printing colored symbols to the console
 printCross() {
-    printf -- '[\e[1;31m✗\e[0m] \e[1;31m%b\e[0m\n' "${*}" >&2
+    printf -- '[\e[1;31m✗\e[0m] \e[1;31m%b\e[0m\n' "${*}"
 }
 
 printInfo() {
@@ -46,17 +46,13 @@ EOF
 
 # Print info about the project
 printCmdInfo() {
-    local lightYellow colorReset
-    colorReset='\e[0m'
-    lightYellow='\e[1;93m'
-    printf -- '%b\n' \
-    "${colorReset}[${lightYellow}i${colorReset}] Limoji is an open source tool that makes it easy to choose between
+    printInfo \
+    "Limoji is an open source tool that makes it easy to choose between
     hundreds of cool ASCII emoticons and share them with your friends,
     all done using the terminal!
 
     All you have to do is pick the right one or let Limoji choose it for you!
-
-    "
+    \n"
 }
 
 # Print Limoji's version
