@@ -10,7 +10,7 @@ printCross() {
 
 # A function that prints the selected emoticon to the console
 printEmoticon() {
-    printTick "${1}"
+    printTick "${1} was copied to the clipboard successfully:"
     printf -- '%b' "${!1}" | tee >(copyToClipboard)
     printf -- '%s\n' ""
 }
