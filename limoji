@@ -129,7 +129,7 @@ validateSessionType() {
             if ! command -v xclip >/dev/null 2>&1; then
                 printInfo "X11 detected"
                 printCross "xclip is required for copying text to the clipboard"
-                exit 2
+                exit 1
             fi
         ;;
         (wayland)
@@ -137,7 +137,7 @@ validateSessionType() {
             if ! command -v wl-copy >/dev/null 2>&1; then
                 printInfo "Wayland detected"
                 printCross "wl-clipboard is required for copying text to the clipboard"
-                exit 2
+                exit 1
             fi
         ;;
         (*)
