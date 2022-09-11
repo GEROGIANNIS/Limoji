@@ -82,8 +82,7 @@ randomEmoticon() {
 # Function that creates a list of the available emoticons
 listEmoticons() {
     # Repeat for every single line
-    for (( c=2; c<=ASCII_LINES; c++ ))
-    do
+    for (( c=2; c<=ASCII_LINES; c++ )); do
         # Read emoticon's name
         name=$(sed "${c}q;d" ascii | cut -d= -f1)
 
