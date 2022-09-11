@@ -22,7 +22,7 @@ copyToClipboard() {
 }
 
 printCross() {
-    printf -- '[\e[1;31m✗\e[0m] \e[1;31m%b\e[0m\n' "${*}"
+    printf -- '[\e[1;31m✗\e[0m] \e[1;31m%b\e[0m\n' "${*}" >&2
 }
 
 printTick() {
