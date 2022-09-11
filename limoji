@@ -1,11 +1,12 @@
 #!/bin/bash
 # Limoji 1.0.0
 
-readonly VERSION="1.0.0"
+limoji_version="1.0.0"
+readonly limoji_version
 
 parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
 
-cd "$parent_path" || exit
+cd "${parent_path}" || exit
 
 # A few values so the script can run in color
 COL_NC='\e[0m' # No Color
@@ -21,7 +22,7 @@ QUESTION="${COL_NC}[${COL_LIGHT_BLUE}?${COL_NC}]"
 # A function that copies the selected emoticon to the clipboard
 # Works on both X11 and Wayland
 copyToClipboard() {
-    if [[ "$XDG_SESSION_TYPE" = "x11" ]]; then
+    if [[ "${XDG_SESSION_TYPE}" = "x11" ]]; then
         xclip -selection c
     else
         wl-copy
@@ -30,7 +31,8 @@ copyToClipboard() {
 
 # A function that prints the selected emoticon to the console
 printEmoticon() {
-    printf -- '%b %b%s was copied to the clipboard successfully:%b\n' "${TICK}" "${COL_LIGHT_GREEN}" "$1" "${COL_NC}"
+    printf -- '%b %b%s was copied to the clipboard successfully:%b\n' \
+        "${TICK}" "${COL_LIGHT_GREEN}" "${1}" "${COL_NC}"
     printf -- '%b' "${!1}" | tee >(copyToClipboard)
     printf -- '%s\n' ""
 }
@@ -44,21 +46,25 @@ Usage: limoji <emoticon>
   -r, --random    Print a random emoticon
   -v, --version   Display Limoji's version
   
-For more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji"
+For more information you can visit our GitHub repository:
+https://github.com/GEROGIANNIS/Limoji
 
 EOF
 }
 
 printInfo() {
 cat << EOF
-${INFO} Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!
-All you have to do is pick the right one or let Limoji choose it for you!'
+${INFO} Limoji is an open source tool that makes it easy to choose between
+  hundreds of cool ASCII emoticons and share them with your friends,
+  all done using the terminal!
+
+All you have to do is pick the right one or let Limoji choose it for you!
 
 EOF
 }
 
 printVersion() {
-    printf -- 'Limoji %b\n' "${VERSION}"
+    printf -- 'Limoji %b\n' "${limoji_version}"
 }
 
 # Function that picks a random emoticon name
@@ -96,7 +102,7 @@ listEmoticons() {
         name=$(sed "${c}q;d" ascii | cut -d= -f1)
 
         # Print the name followed by the emoticon itself
-        printf -- '%b:\n%b\n\n' "$name" "${!name}"
+        printf -- '%b:\n%b\n\n' "${name}" "${!name}"
     done
 }
 
@@ -115,7 +121,8 @@ validateSessionType() {
             # Verify xclip has been installed
             if ! command -v xclip >/dev/null 2>&1; then
                 printf -- '%b X11 detected\n' "${INFO}"
-                printf -- '%b %bxclip is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+                printf -- '%b %bxclip is required for copying text to the clipboard%b\n' \
+                    "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
                 exit 2
             fi
         ;;
@@ -123,12 +130,14 @@ validateSessionType() {
             # Verify wl-clipboard has been installed
             if ! command -v wl-copy >/dev/null 2>&1; then
                 printf -- '%b Wayland detected\n' "${INFO}"
-                printf -- '%b %bwl-clipboard is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+                printf -- '%b %bwl-clipboard is required for copying text to the clipboard%b\n' \
+                    "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
                 exit 2
             fi
         ;;
         (*)
-            printf -- '%b %bYour system is not supported yet, please create an issue here:%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+            printf -- '%b %bYour system is not supported yet, please create an issue here:%b\n' \
+                "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
             printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
             exit 1
         ;;
@@ -160,9 +169,10 @@ main() {
 
             # Check if the selected emoticon exists
             if [[ -n "${!1}" ]]; then
-                printEmoticon "$1"
+                printEmoticon "${1}"
             else
-                printf -- "%b %bThe specified emoji doesn't exist!%b\n" "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+                printf -- "%b %bThe specified emoji doesn't exist!%b\n" \
+                    "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
                 printf -- '%s\n' "Try 'limoji --emoticons' for a list of available emojis."
             fi
         ;;
