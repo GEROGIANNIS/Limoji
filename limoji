@@ -104,27 +104,31 @@ source ascii
 ASCII_LINES=$(wc -l < ascii)
 
 # Check if current session is X11
-if [ "$XDG_SESSION_TYPE" = "x11" ]; then
-    # Verify xclip has been installed
-    if ! hash xclip 2> /dev/null; then
-        printf -- '%b X11 detected\n' "${INFO}"
-        printf -- '%b %bxclip is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-        exit 2
-    fi
 # Otherwise, check if it is Wayland
-elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-    # Verify wl-clipboard has been installed
-    if ! hash wl-copy 2> /dev/null; then
-        printf -- '%b Wayland detected\n' "${INFO}"
-        printf -- '%b %bwl-clipboard is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-        exit 2
-    fi
 # Anything else is unsupported
-else
-    printf -- '%b %bYour system is not supported yet, please create an issue here:%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
-    printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
-    exit 1
-fi
+case "${XDG_SESSION_TYPE}" in
+    (x11)
+        # Verify xclip has been installed
+        if ! hash xclip 2> /dev/null; then
+            printf -- '%b X11 detected\n' "${INFO}"
+            printf -- '%b %bxclip is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+            exit 2
+        fi
+    ;;
+    (wayland)
+        # Verify wl-clipboard has been installed
+        if ! hash wl-copy 2> /dev/null; then
+            printf -- '%b Wayland detected\n' "${INFO}"
+            printf -- '%b %bwl-clipboard is required for copying text to the clipboard%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+            exit 2
+        fi
+    ;;
+    (*)
+        printf -- '%b %bYour system is not supported yet, please create an issue here:%b\n' "${CROSS}" "${COL_LIGHT_RED}" "${COL_NC}"
+        printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
+        exit 1
+    ;;
+esac
 
 # Detect number of arguments
 if [ $# = 1 ]; then
