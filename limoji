@@ -35,6 +35,28 @@ printEmoticon() {
     printf -- '%s\n' ""
 }
 
+printHelp() {
+cat << EOF
+Usage: limoji <emoticon>
+  -e, --emoticons Show a list of the available emoticons
+  -h, --help      Show this list
+  -i, --info      Show info about the project
+  -r, --random    Print a random emoticon
+  -v, --version   Display Limoji's version
+  
+For more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji"
+
+EOF
+}
+
+printInfo() {
+cat << EOF
+${INFO} Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!
+All you have to do is pick the right one or let Limoji choose it for you!'
+
+EOF
+}
+
 # Function that picks a random emoticon name
 fetchRandomName() {
     # Generate a random number between 1 and ascii line count
@@ -110,9 +132,9 @@ if [ $# = 1 ]; then
     if [ "$1" = --emoticons ] || [ "$1" = -e ]; then
         listEmoticons
     elif [ "$1" = --help ] || [ "$1" = -h ]; then
-        printf -- "Usage: limoji <emoticon>\n  -e, --emoticons Show a list of the available emoticons\n  -h, --help      Show this list\n  -i, --info      Show info about the project\n  -r, --random    Print a random emoticon\n  -v, --version   Display Limoji\'s version\n\nFor more information you can visit our GitHub repository: https://github.com/GEROGIANNIS/Limoji\n"
+        printHelp
     elif [ "$1" = --info ] || [ "$1" = -i ]; then
-        printf -- '%b Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!\n    All you have to do is pick the right one or let Limoji choose it for you!\n' "${INFO}"
+        printInfo
     elif [ "$1" = --random ] || [ "$1" = -r ]; then
         # Picks a random emoticon
         randomEmoticon
