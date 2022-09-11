@@ -156,7 +156,7 @@ main() {
         (--version|-v)      printVersion ;;
         (*)
             # Convert all uppercase characters to lowercase
-            set "$(printf -- '%b' "$1" | tr '[:upper:]' '[:lower:]')"
+            set -- "${1,,}"
 
             # Check if the selected emoticon exists
             if [[ -n "${!1}" ]]; then
