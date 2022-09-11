@@ -102,55 +102,47 @@ invalidArgument() {
     printf -- '%s\n' "Try 'limoji --help' for a list of available commands."
 }
 
-# Check if current session is X11 or Wayland
-# and attempt to setup a clipboard copy function
-# Anything else is unsupported
-validateSessionType() {
-    case "${XDG_SESSION_TYPE}" in
-        (x11)
-            # Verify xclip has been installed
-            if ! command -v xclip >/dev/null 2>&1; then
-                printInfo "X11 detected"
-                printCross "xclip is required for copying text to the clipboard"
-                exit 1
-            fi
-            copyToClipboard() { xclip -selection c; }
-        ;;
-        (wayland)
-            # Verify wl-clipboard has been installed
-            if ! command -v wl-copy >/dev/null 2>&1; then
-                printInfo "Wayland detected"
-                printCross "wl-clipboard is required for copying text to the clipboard"
-                exit 1
-            fi
-            copyToClipboard() { wl-copy; }
-        ;;
-        (*)
-            # If we get to this point, then it only means that XDG_SESSION_TYPE isn't set
-            # We can run some more thorough heuristics to try and find a way to clipboard things
-            if command -v wl-copy >/dev/null 2>&1; then
-                copyToClipboard() { wl-copy; }
-            elif command -v xclip >/dev/null 2>&1; then
-                copyToClipboard() { xclip -selection c; }
-            elif command -v xsel >/dev/null 2>&1; then
-                copyToClipboard() { xsel --clipboard --input; }
-            elif command -v pbcopy >/dev/null 2>&1; then
-                copyToClipboard() { pbcopy; }
-            else
-                printCross "Your system is not supported yet, please create a new issue here:"
-                printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
-                exit 1
-            fi
-        ;;
-    esac
+# Attempt to figure out a clipboard handling method
+setupClipboard() {
+    # If x11 and xclip are simultaneously present, that's a preferred option
+    if [[ "${XDG_SESSION_TYPE}" = "x11" ]] && command -v xclip >/dev/null 2>&1; then
+        copyToClipboard() { xclip -selection c; }
+        return 0
+    fi
+
+    # if wayland and wl-copy are simultaneously present, that's a preferred option
+    if [[ "${XDG_SESSION_TYPE}" = "wayland" ]] && command -v wl-copy >/dev/null 2>&1; then
+        copyToClipboard() { wl-copy; }
+        return 0
+    fi
+
+    # If we get to this point, then it only means that XDG_SESSION_TYPE isn't set
+    # We can run some more thorough heuristics to try and find a way to clipboard things
+    if command -v wl-copy >/dev/null 2>&1; then
+        copyToClipboard() { wl-copy; }
+        return 0
+    elif command -v xclip >/dev/null 2>&1; then
+        copyToClipboard() { xclip -selection c; }
+        return 0
+    elif command -v xsel >/dev/null 2>&1; then
+        copyToClipboard() { xsel --clipboard --input; }
+        return 0
+    elif command -v pbcopy >/dev/null 2>&1; then
+        copyToClipboard() { pbcopy; }
+        return 0
+    else
+        printCross "Your system is not supported yet, please create a new issue here:"
+        printf -- '%s\n' "https://github.com/GEROGIANNIS/Limoji/issues/new/choose"
+        exit 1
+    fi
 }
 
 main() {
     # Fail fast checks.
     # First, if no args are given, give the invalid argument message and exit
     (( ${#} == 0 )) && { invalidArgument; exit 1; }
-    # Next, validate our session type
-    validateSessionType
+    # Next, try to get a clipboard working
+    setupClipboard
 
     # Fetch all emoticons from the file
     source ascii
