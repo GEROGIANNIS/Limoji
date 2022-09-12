@@ -125,6 +125,10 @@ setupClipboard() {
             if command -v wl-copy >/dev/null 2>&1; then
                 copyToClipboard() { wl-copy; }
                 return 0
+            # Fallback if wl-copy isn't installed
+            elif command -v xclip >/dev/null 2>&1; then
+                copyToClipboard() { xclip -selection c; }
+                return 0
             else
                 printInfo 'Wayland detected'
                 printCross 'wl-clipboard is required for copying text to the clipboard'
