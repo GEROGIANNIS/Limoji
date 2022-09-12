@@ -121,7 +121,7 @@ setupClipboard() {
             fi
         ;;
         (wayland)
-            # if Wayland and wl-copy are simultaneously present, that's a preferred option
+            # If Wayland and wl-copy are simultaneously present, that's a preferred option
             if command -v wl-copy >/dev/null 2>&1; then
                 copyToClipboard() { wl-copy; }
                 return 0
