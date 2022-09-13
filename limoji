@@ -57,7 +57,38 @@ printCmdInfo() {
 
 # Print Limoji's version
 printCmdVersion() {
-    printf -- 'Limoji %b\n' "${limoji_version}"
+    # Print current version
+    printf -- 'Limoji %b' "${limoji_version}"
+
+    # Don't check for new versions if curl is not installed or an argument has been passed
+    if [[ $(command -v curl) && ! "$1" =~ (--no-update-check|-nu) ]]; then
+        # Query GitHub's API to see if a new version is available
+        latest_version=$(fetchLatestRelease "gerogiannis/limoji")
+
+        # Compare current version against the one fetched from the API
+        if [[ "$limoji_version" > "$latest_version" || "$limoji_version" = "$latest_version" ]]; then
+            printf -- ' (\e[1;32mUp to date\e[0m)\n'
+        else
+            printf -- ' (\e[1;93mUpdate available\e[0m)\n\n'
+            printInfo "Limoji $latest_version is available."
+
+            # Check if Limoji's parent directory is a git repository
+            if [[ -d .git ]]; then
+                printf -- '    %s\n' "Run 'git pull' to update."
+            fi
+        fi
+    else
+        printf -- '\n'
+    fi
+}
+
+# Fetch latest release from GitHub
+# Based on lukechilds/get_latest_release.sh
+# v0.31.4
+fetchLatestRelease() {
+  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub API
+    grep '"tag_name":' |                                            # Get tag line
+    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
 # Function that picks a random emoticon name
@@ -178,7 +209,7 @@ main() {
         (--help|-h)         printCmdHelp ;;
         (--info|-i)         printCmdInfo ;;
         (--random|-r)       randomEmoticon ;;
-        (--version|-v)      printCmdVersion ;;
+        (--version|-v)      printCmdVersion "$2" ;;
         (--*|-*)            invalidArgument ;;
         (*)
             # Convert all uppercase characters to lowercase

@@ -171,6 +171,15 @@ $ limoji happy
     </tr>
 </table>
 
+By default, `limoji --version` will query GitHub's API to check if a new version is available. If you wish to disable this check, use the `--no-update-check` flag:
+
+```bash
+$ limoji --version --no-update-check
+
+# Shortened version:
+$ limoji -v -nu
+```
+
 # 🔨 Development
 
 ## Contributing to the project
