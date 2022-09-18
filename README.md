@@ -186,16 +186,16 @@ $ limoji -v -nu
 
 1. Fork Limoji
 2. Apply your proposed changes to the fork
-3. Open a Pull Request
+3. Open a pull request
 
 ## Deployment
 
 When everything is ready for a release, the version number needs to be incremented:
 
 ```bash
-# Limoji 0.1.0
+# Limoji 1.0.0
 
-readonly VERSION="0.1.0"
+limoji_version="1.0.0"
 ```
 
 Then run publish.sh:
