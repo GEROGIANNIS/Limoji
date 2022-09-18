@@ -97,7 +97,7 @@ fetchRandomName() {
     randomLine=$(( 2 + RANDOM % (ASCII_LINES - 1) ))
 
     # Fetch emoticon's name from the selected line
-    randomName=$(sed "${randomLine}q;d" ${config_path}/ascii | cut -d= -f1)
+    randomName=$(sed "${randomLine}q;d" "${config_path}"/ascii | cut -d= -f1)
 }
 
 # Function that picks a random emoticon
@@ -124,7 +124,7 @@ listEmoticons() {
     # Repeat for every single line
     for (( c=2; c<=ASCII_LINES; c++ )); do
         # Read emoticon's name
-        name=$(sed "${c}q;d" ${config_path}/ascii | cut -d= -f1)
+        name=$(sed "${c}q;d" "${config_path}"/ascii | cut -d= -f1)
 
         # Print the name followed by the emoticon itself
         printf -- '%b:\n%b\n\n' "${name}" "${!name}"
@@ -199,10 +199,10 @@ main() {
     setupClipboard
 
     # Fetch all emoticons from the file
-    source ${config_path}/ascii
+    source "${config_path}"/ascii
 
     # Store the number of emoticons in a variable
-    ASCII_LINES=$(wc -l < ${config_path}/ascii)
+    ASCII_LINES=$(wc -l < "${config_path}"/ascii)
 
     case "${1}" in
         (--emoticons|-e)    listEmoticons ;;
