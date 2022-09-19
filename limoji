@@ -91,6 +91,14 @@ fetchLatestRelease() {
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
+selectLocale() {
+    if [[ ! -n "${language}" ]]; then
+        language=$(echo $LANG | cut -d. -f1)
+    fi
+
+    source "${config_path}"/translations/"${language}"
+}
+
 # Function that picks a random emoticon name
 fetchRandomName() {
     # Generate a random number between 1 and ascii line count
@@ -195,6 +203,10 @@ main() {
     # First, if no args are given, give the invalid argument message and exit
     (( ${#} == 0 )) && { invalidArgument; exit 1; }
 
+    source "${config_path}"/limoji.conf
+
+    selectLocale
+
     # Next, try to get a clipboard working
     setupClipboard
 
@@ -219,7 +231,7 @@ main() {
             if [[ -n "${!1}" ]]; then
                 printEmoticon "${1}"
             else
-                printCross "The specified emoji doesn't exist!"
+                printCross "$MSG_INVALID_EMOTICON"
                 printf -- '%s\n' "Try 'limoji --emoticons' for a list of available emojis."
             fi
         ;;
