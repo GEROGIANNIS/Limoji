@@ -1,1 +1,5 @@
-MSG_INVALID_EMOTICON='Το συγκεκριμένο emoji δεν υπάρχει'
+MSG_COPIED_TO_CLIPBOARD='αντιγράφηκε στο πρόχειρο με επιτυχία:'
+MSG_UP_TO_DATE='Ενημερωμένο'
+MSG_UPDATE_AVAILABLE='Διαθέσιμη ενημέρωση'
+MSG_VERSION_IS_AVAILABLE='Το Limoji''είναι διαθέσιμο.'
+MSG_INVALID_EMOTICON='Το συγκεκριμένο emoji δεν υπάρχει!'

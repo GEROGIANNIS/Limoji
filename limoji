@@ -23,7 +23,7 @@ printTick() {
 
 # A function that prints the selected emoticon to the console
 printEmoticon() {
-    printTick "${1} was copied to the clipboard successfully:"
+    printTick "${1} $MSG_COPIED_TO_CLIPBOARD"
     printf -- '%b' "${!1}" | tee >(copyToClipboard)
     printf -- '%s\n' ""
 }
@@ -67,9 +67,9 @@ printCmdVersion() {
 
         # Compare current version against the one fetched from the API
         if [[ "$limoji_version" > "$latest_version" || "$limoji_version" = "$latest_version" ]]; then
-            printf -- ' (\e[1;32mUp to date\e[0m)\n'
+            printf -- ' (\e[1;32m'"$MSG_UP_TO_DATE"'\e[0m)\n'
         else
-            printf -- ' (\e[1;93mUpdate available\e[0m)\n\n'
+            printf -- ' (\e[1;93m'"$MSG_UPDATE_AVAILABLE"'\e[0m)\n\n'
             printInfo "Limoji $latest_version is available."
 
             # Check if Limoji's parent directory is a git repository
