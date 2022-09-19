@@ -91,11 +91,14 @@ fetchLatestRelease() {
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
-selectLocale() {
+# Select and load the appropriate language
+selectLanguage() {
+    # If language is undefined in limoji.conf, select one automatically, based on system preference
     if [[ ! -n "${language}" ]]; then
         language=$(echo $LANG | cut -d. -f1)
     fi
 
+    # Load the appropriate file
     source "${config_path}"/translations/"${language}"
 }
 
@@ -203,9 +206,11 @@ main() {
     # First, if no args are given, give the invalid argument message and exit
     (( ${#} == 0 )) && { invalidArgument; exit 1; }
 
+    # Load the config file
     source "${config_path}"/limoji.conf
 
-    selectLocale
+    # Setup language & load translations
+    selectLanguage
 
     # Next, try to get a clipboard working
     setupClipboard
