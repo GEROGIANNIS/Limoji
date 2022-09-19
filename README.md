@@ -214,7 +214,7 @@ This script will automatically do the following:
 GitHub actions is configured to build the package afterwards and draft a release.
 
 # 💬 Todo:
-- [ ] Localization
+- [x] Localization
 - [x] Packaging
 - [x] Help Page
 - [x] Update README.md
