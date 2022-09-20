@@ -1,0 +1,5 @@
+MSG_COPIED_TO_CLIPBOARD='がクリップボードに正常にコピーされました:'
+MSG_UP_TO_DATE='最新の'
+MSG_UPDATE_AVAILABLE='利用可能なアップデート'
+MSG_VERSION_IS_AVAILABLE='Limoji '"$latest_version"' 利用可能です.'
+MSG_INVALID_EMOTICON=$'指定された絵文字は存在しません!'
