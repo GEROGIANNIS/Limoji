@@ -8,7 +8,7 @@
  ╚══════╝╚═╝╚═╝     ╚═╝ ╚═════╝  ╚════╝ ╚═╝
 |==========================================|</pre>
     <p>
-    Turning your favorite emojis into the world of ASCII
+    Turning your favorite emojis into the world of Unicode
     </p>
     <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">
         <img alt="Releases" src="https://flat.badgen.net/github/release/GEROGIANNIS/Limoji/stable?color=green">
@@ -31,7 +31,7 @@
 
 # 📖 Introduction
 
-Limoji is an open source tool that makes it easy to choose between hundreds of cool ASCII emoticons and share them with your friends, all done using the terminal!
+Limoji is an open source tool that makes it easy to choose between hundreds of cool Unicode emoticons and share them with your friends, all done using the terminal!
 
 All you have to do is pick the right one or let Limoji choose it for you!
 

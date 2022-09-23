@@ -14,6 +14,6 @@ jobs:
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
         with:
-          ignore_names: ascii
+          ignore_names: unicode
         env:
           SHELLCHECK_OPTS: -x
