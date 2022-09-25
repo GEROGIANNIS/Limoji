@@ -95,7 +95,7 @@ fetchLatestRelease() {
 selectLanguage() {
     # If language is undefined in limoji.conf, select one automatically, based on system preference
     if [[ ! -n "${language}" ]]; then
-        language=$(echo $LANG | cut -d. -f1)
+        language=$(echo $LANG | cut -d_ -f1)
     fi
 
     # Load the appropriate file
