@@ -83,6 +83,12 @@ sudo apt update
 # Install Limoji
 sudo apt install limoji
 ```
+### Installation using deb-get:
+
+* Download and install [deb-get](https://github.com/wimpysworld/deb-get).
+* Run `deb-get install caprine`
+
+*Note: deb-get is 3rd party software, not to be associated with apt-get.*
 
 ## Other GNU/Linux distributions
 
