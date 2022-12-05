@@ -220,6 +220,9 @@ GitHub actions is configured to build the package afterwards and draft a release
 
 # 💬 Todo:
 - [ ] Localization
+- [ ] Search Command
+- [ ] Emoticon Creator
+- [ ] Chrome OS Support
 - [x] Packaging
 - [x] Help Page
 - [x] Update README.md
