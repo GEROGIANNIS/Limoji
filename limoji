@@ -23,7 +23,7 @@ printTick() {
 
 # A function that prints the selected emoticon to the console
 printEmoticon() {
-    printTick "${1} was copied to the clipboard successfully:"
+    printTick "${1} $MSG_COPIED_TO_CLIPBOARD"
     printf -- '%b' "${!1}" | tee >(copyToClipboard)
     printf -- '%s\n' ""
 }
@@ -67,7 +67,7 @@ printCmdVersion() {
 
         # Compare current version against the one fetched from the API
         if [[ "$limoji_version" < "$latest_version" ]]; then
-            printf -- ' (\e[1;93mUpdate available\e[0m)\n\n'
+            printf -- ' (\e[1;93m'"$MSG_UPDATE_AVAILABLE"'\e[0m)\n\n'
             printInfo "Limoji $latest_version is available."
 
             # Check if Limoji's parent directory is a git repository
@@ -75,7 +75,7 @@ printCmdVersion() {
                 printf -- '    %s\n' "Run 'git pull' to update."
             fi
         else
-            printf -- ' (\e[1;32mUp to date\e[0m)\n'
+            printf -- ' (\e[1;32m'"$MSG_UP_TO_DATE"'\e[0m)\n'
         fi
     else
         printf -- '\n'
@@ -89,6 +89,17 @@ fetchLatestRelease() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub API
     grep '"tag_name":' |                                            # Get tag line
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+}
+
+# Select and load the appropriate language
+selectLanguage() {
+    # If language is undefined in limoji.conf, select one automatically, based on system preference
+    if [[ ! -n "${language}" ]]; then
+        language=$(echo $LANG | cut -d_ -f1)
+    fi
+
+    # Load the appropriate file
+    source "${config_path}"/translations/"${language}"
 }
 
 # Function that picks a random emoticon name
@@ -195,6 +206,12 @@ main() {
     # First, if no args are given, give the invalid argument message and exit
     (( ${#} == 0 )) && { invalidArgument; exit 1; }
 
+    # Load the config file
+    source "${config_path}"/limoji.conf
+
+    # Setup language & load translations
+    selectLanguage
+
     # Next, try to get a clipboard working
     setupClipboard
 
@@ -219,7 +236,7 @@ main() {
             if [[ -n "${!1}" ]]; then
                 printEmoticon "${1}"
             else
-                printCross "The specified emoji doesn't exist!"
+                printCross "$MSG_INVALID_EMOTICON"
                 printf -- '%s\n' "Try 'limoji --emoticons' for a list of available emojis."
             fi
         ;;

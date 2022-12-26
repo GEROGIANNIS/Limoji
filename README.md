@@ -226,7 +226,7 @@ This script will automatically do the following:
 GitHub actions is configured to build the package afterwards and draft a release.
 
 # 💬 Todo:
-- [ ] Localization
+- [x] Localization
 - [ ] Search Command
 - [ ] Emoticon Creator
 - [ ] Chrome OS Support

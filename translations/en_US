@@ -1,0 +1,5 @@
+MSG_COPIED_TO_CLIPBOARD='was copied to the clipboard successfully:'
+MSG_UP_TO_DATE='Up to date'
+MSG_UPDATE_AVAILABLE='Update available'
+MSG_VERSION_IS_AVAILABLE='Limoji '"$latest_version"' is available.'
+MSG_INVALID_EMOTICON=$'The specified emoji doesn\'t exist!'
