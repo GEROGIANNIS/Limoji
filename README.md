@@ -60,6 +60,13 @@ All you have to do is pick the right one or let Limoji choose it for you!
 			<a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">Download</a> the .deb file
 		</td>
 	</tr>
+    <tr>
+    	<td>GitHub (deb-get)</td>
+		<td align="center">✔️</td>
+		<td>
+			Follow the <a href=#installation-using-deb-get>instructions below</a>
+		</td>
+    </tr>
         <tr>
 		<td>Gemfury</td>
 		<td align="center">✔️</td>
