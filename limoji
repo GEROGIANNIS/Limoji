@@ -66,9 +66,7 @@ printCmdVersion() {
         latest_version=$(fetchLatestRelease "gerogiannis/limoji")
 
         # Compare current version against the one fetched from the API
-        if [[ "$limoji_version" > "$latest_version" || "$limoji_version" = "$latest_version" ]]; then
-            printf -- ' (\e[1;32m'"$MSG_UP_TO_DATE"'\e[0m)\n'
-        else
+        if [[ "$limoji_version" < "$latest_version" ]]; then
             printf -- ' (\e[1;93m'"$MSG_UPDATE_AVAILABLE"'\e[0m)\n\n'
             printInfo "Limoji $latest_version is available."
 
@@ -76,6 +74,8 @@ printCmdVersion() {
             if [[ $is_git ]]; then
                 printf -- '    %s\n' "Run 'git pull' to update."
             fi
+        else
+            printf -- ' (\e[1;32m'"$MSG_UP_TO_DATE"'\e[0m)\n'
         fi
     else
         printf -- '\n'

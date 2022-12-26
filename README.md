@@ -50,23 +50,30 @@ All you have to do is pick the right one or let Limoji choose it for you!
 ## Debian / Ubuntu-based distributions (Officially supported)
 
 <table>
-	<th>Repository</th>
-	<th>Automatic Updates</th>
-	<th>How to install</th>
-	<tr>
-		<td>GitHub</td>
-		<td align="center">❌</td>
-		<td>
-			<a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">Download</a> the .deb file
-		</td>
-	</tr>
+    <th>Repository</th>
+    <th>Automatic Updates</th>
+    <th>How to install</th>
+    <tr>
+	    <td>GitHub</td>
+	    <td align="center">❌</td>
+	    <td>
+		    <a href="https://github.com/GEROGIANNIS/Limoji/releases/latest">Download</a> the .deb file
+	    </td>
+    </tr>
+    <tr>
+        <td>GitHub (deb-get)</td>
+	    <td align="center">✔️</td>
+	    <td>
+		    Follow the <a href=#installation-using-deb-get>instructions below</a>
+	    </td>
+    </tr>
         <tr>
-		<td>Gemfury</td>
-		<td align="center">✔️</td>
-		<td>
-			Follow the <a href=#apt-repository-gemfury>instructions below</a>
-		</td>
-	</tr>
+	    <td>Gemfury</td>
+	    <td align="center">✔️</td>
+	    <td>
+		    Follow the <a href=#apt-repository-gemfury>instructions below</a>
+	    </td>
+    </tr>
 </table>
 
 ### APT repository (Gemfury):
@@ -74,8 +81,7 @@ All you have to do is pick the right one or let Limoji choose it for you!
 Run the following commands to add it:
 ```sh
 # Add the repository
-sudo echo "deb [trusted=yes] https://apt.fury.io/lefterisgar/ * *" > \
-/etc/apt/sources.list.d/limoji.list
+echo "deb [trusted=yes] https://apt.fury.io/lefterisgar/ * *" | sudo tee /etc/apt/sources.list.d/limoji.list
 
 # Update the package indexes
 sudo apt update
@@ -83,6 +89,12 @@ sudo apt update
 # Install Limoji
 sudo apt install limoji
 ```
+### Installation using deb-get:
+
+* Download and install [deb-get](https://github.com/wimpysworld/deb-get).
+* Run `deb-get install limoji`
+
+*Note: deb-get is 3rd party software, not to be associated with apt-get.*
 
 ## Other GNU/Linux distributions
 
@@ -215,6 +227,9 @@ GitHub actions is configured to build the package afterwards and draft a release
 
 # 💬 Todo:
 - [x] Localization
+- [ ] Search Command
+- [ ] Emoticon Creator
+- [ ] Chrome OS Support
 - [x] Packaging
 - [x] Help Page
 - [x] Update README.md
